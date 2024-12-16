@@ -8,7 +8,7 @@ const Jumbotron = () => {
   return (
     <div className="relative flex justify-center items-center">
       <img
-        src="/images/jumbotron.png"
+        src="/Jumbotron.png"
         alt="Jumbotron"
         className="w-full h-auto"
       />
