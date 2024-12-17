@@ -1,6 +1,6 @@
 import React from "react";
 
-const NavbarComponent = () => {
+const Navbar = () => {
   return (
     <nav className="flex justify-between items-center px-8 py-4 bg-white shadow-md">
       <div className="text-lg font-bold text-gray-800">ExploreTik</div>
@@ -21,4 +21,4 @@ const NavbarComponent = () => {
   );
 };
 
-export default NavbarComponent;
+export default Navbar;
