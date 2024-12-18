@@ -1,13 +1,12 @@
-import Jumbotron from "@/features/jumbotron/components/Jumbotron";
+import Jumbotron from "@/features/home/components/Jumbotron";
 import NavbarComponent from "./../components/Navbar";
-import Navgiation from "@/features/eventlist/components/Navgiation";
+import Navgiation from "@/features/events/components/Navgiation";
+import HomePage from "@/features/home";
 
 const page = () => {
   return (
     <div>
-      <NavbarComponent />
-      <Jumbotron />
-      <Navgiation />
+      <HomePage />
     </div>
   );
 };
