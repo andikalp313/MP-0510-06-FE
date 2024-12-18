@@ -26,14 +26,14 @@ const Navigation = ({ onSearch }: { onSearch: (search: string) => void }) => {
   ];
 
   return (
-    <div className="flex flex-wrap justify-evenly gap-6 items-center px-6 py-4 bg-white my-7">
+    <div className="my-7 flex flex-wrap items-center justify-evenly gap-6 bg-white px-6 py-4">
       {categories.map((category) => (
         <Badge
           key={category.name}
           onClick={() => onSearch(category.name === "All" ? "" : category.name)}
-          className="cursor-pointer flex flex-col items-center text-gray-700 hover:text-black hover:bg-gray-100 transform hover:scale-105 transition-all duration-300 px-4 py-2 rounded-lg"
+          className="flex transform cursor-pointer flex-col items-center rounded-lg px-4 py-2 transition-all duration-300 hover:scale-105 hover:bg-gray-100 hover:text-black"
         >
-          <div className="text-2xl mb-1">{category.icon}</div>
+          <div className="mb-1 text-2xl">{category.icon}</div>
           <span className="text-xs font-semibold">{category.name}</span>
         </Badge>
       ))}
