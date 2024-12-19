@@ -6,6 +6,7 @@ import { useQuery } from "@tanstack/react-query";
 interface GetBlogsQuery extends PaginationQueries {
   search?: string;
   location?: string;
+  category?: string;
 }
 
 const useGetEvents = (queries: GetBlogsQuery) => {
