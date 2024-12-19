@@ -7,6 +7,7 @@ export interface Event {
   startDate: string; // Pastikan formatnya sesuai (ISO string, misalnya "2024-12-01T00:00:00Z")
   location: string;
   price: number;
+  avaliableSeats: string;
   eventCategory: string;
   endDate: string;
   user: {

@@ -39,7 +39,6 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
               {format(new Date(event.startDate), "dd MMM yyyy")}
             </Badge>
           </div>
-
           <h2 className="my-2 line-clamp-2 text-lg font-bold">{event.title}</h2>
           <p className="line-clamp-4">{event.description}</p>
         </CardContent>
