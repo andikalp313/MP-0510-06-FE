@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import useRegister from "@/hooks/api/auth/useRegister";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { RegisterSchema } from "./schemas";
+import { RegisterSchema } from "./schema";
 
 const RegisterPage = () => {
   const { mutateAsync: register, isPending } = useRegister();
