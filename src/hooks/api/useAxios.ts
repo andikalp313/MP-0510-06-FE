@@ -2,7 +2,7 @@
 
 import { axiosInstance } from "@/lib/axios";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { logoutAction } from "@/redux/slices/userSlice";
+import { logoutAction } from "@/redux/slices/userslice";
 import { RootState } from "@/redux/store";
 import { useEffect } from "react";
 

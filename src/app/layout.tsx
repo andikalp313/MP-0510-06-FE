@@ -7,7 +7,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import Footer from "@/components/Footer";
-import { ThemeProvider } from "@/providers/ThemeProvider";
 import StoreProvider from "@/providers/storeProvider";
 import AuthProvider from "@/providers/authProvider";
 const geistSans = localFont({
