@@ -1,8 +1,11 @@
 "use client";
 
 import { axiosInstamce } from "@/lib/axios";
+import { useAppDispatch } from "@/redux/hooks";
+import { loginAction } from "@/redux/slices/userslice";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
+import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
 interface LoginPayload {
@@ -11,14 +14,21 @@ interface LoginPayload {
 }
 
 const useLogin = () => {
+  const router = useRouter()
+  const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: async (payload: LoginPayload) => {
       const { data } = await axiosInstamce.post("/auth/login", payload);
       return data;
     },
-    onSuccess: () => {
+
+    onSuccess: (data) => {
       toast.success("wellcome");
+      dispatch(loginAction(data));
+      localStorage.setItem("blog-storage", JSON.stringify(data));
+      router.replace("/")
     },
+
     onError: (error: AxiosError<any>) => {
       toast.error(error.response?.data);
     },

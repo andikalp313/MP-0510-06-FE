@@ -9,17 +9,25 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useAppSelector } from "@/redux/hooks";
+import { logoutAction } from "@/redux/slices/userslice";
 import { Menu } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 const Navbar = () => {
   const router = useRouter();
   // const { data } = useSession();
-
   // const user = data?.user;
+  const dispatch = useDispatch();
+  const user = useAppSelector((state) => state.user);
 
-  const logout = () => signOut({});
+  const logout = () => {
+    localStorage.removeItem("blog-storage");
+    dispatch(logoutAction());
+    router.push("/login");
+  };
 
   return (
     <nav className="sticky top-0 z-30">
@@ -31,10 +39,10 @@ const Navbar = () => {
           <div className="hidden cursor-pointer items-center gap-8 font-medium md:flex">
             <Link href="/">Home</Link>
             <Link href="/events">Event</Link>
-            <Link href="/login">Sign in</Link>
             <>
               <p onClick={() => router.push("/write")}>Create Event</p>
-              <p onClick={logout}>Logout</p>
+            {!user.id && <Link href="/login">Sign in</Link>}
+              {!!user.id && <p onClick={logout}>Logout</p>}
             </>
             <ModeToggle />
           </div>
