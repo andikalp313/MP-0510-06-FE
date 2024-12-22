@@ -1,4 +1,4 @@
-import { axiosInstamce } from "@/lib/axios";
+import { axiosInstance } from "@/lib/axios";
 import { Event } from "@/types/event";
 import { PageableResponse, PaginationQueries } from "@/types/pagination";
 import { useQuery } from "@tanstack/react-query";
@@ -13,7 +13,7 @@ const useGetEvents = (queries: GetBlogsQuery) => {
   return useQuery({
     queryKey: ["events", queries],
     queryFn: async () => {
-      const { data } = await axiosInstamce.get<PageableResponse<Event>>(
+      const { data } = await axiosInstance.get<PageableResponse<Event>>(
         "/events",
         { params: queries },
       );

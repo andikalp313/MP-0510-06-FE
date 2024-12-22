@@ -1,18 +1,20 @@
 "use client";
-// import useDeleteBlog from "@/hooks/api/blog/useDeleteBlog";
+
 import useGetEvent from "@/hooks/api/event/useGetEvent";
 import { format } from "date-fns";
-
-// import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { FC } from "react";
-// import Markdown from "../../components/Markdown";
-// import ModalDelete from "./components/ModalDelete";
-// import SkeletonBlog from "./components/SkeletonBlog";
-import useGetEvents from "@/hooks/api/event/useGetEvents";
 import SkeletonEvent from "./components/SkeletonEvent";
 import { Badge } from "@/components/ui/badge";
-// import useGetEvent from "@/hooks/api/event/useGetEvent";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import {
+  CalendarIcon,
+  MapPinIcon,
+  TicketIcon,
+  CurrencyIcon as CurrencyDollarIcon,
+  UserIcon,
+} from "lucide-react";
 
 interface EventDetailPageProps {
   eventId: number;
@@ -27,65 +29,81 @@ const EventDetailPage: FC<EventDetailPageProps> = ({ eventId }) => {
 
   if (!data) {
     return (
-      <h1 className="text-center text-xl font-medium">No Data Available</h1>
+      <div className="flex h-screen items-center justify-center">
+        <h1 className="text-2xl font-semibold text-gray-800">
+          No Data Available
+        </h1>
+      </div>
     );
   }
 
   return (
-    <main className="container mx-auto mt-5 max-w-6xl px-4">
-      <section className="space-y-4">
-        <h1 className="text-3xl font-bold text-gray-800">{data.title}</h1>
-        <Badge
-          variant="outline"
-          className="rounded-sm bg-green-100 text-green-600"
-        >
-          {data.eventCategory || "Uncategorized"}
-        </Badge>
+    <main className="container mx-auto mt-8 max-w-4xl px-4">
+      <Card className="overflow-hidden">
+        <CardHeader className="pb-0">
+          <div className="mb-2 flex items-center justify-between">
+            <Badge variant="secondary" className="text-sm">
+              {data.eventCategory || "Uncategorized"}
+            </Badge>
+            <p className="text-sm text-muted-foreground">
+              Organized by {data.user?.name || "Unknown"}
+            </p>
+          </div>
+          <CardTitle className="text-3xl font-bold">{data.title}</CardTitle>
+        </CardHeader>
+        <CardContent className="pt-6">
+          <div className="relative mb-6 h-[400px] w-full overflow-hidden rounded-lg">
+            <Image
+              src={data.thumbnail || "/default-thumbnail.jpg"}
+              alt={data.title || "Event Thumbnail"}
+              fill
+              className="object-cover"
+            />
+          </div>
 
-        <div className="flex items-center justify-between text-gray-600">
-          <p>
-            {format(new Date(data.startDate), "dd MMM yyyy")} -{" "}
-            {format(new Date(data.endDate), "dd MMM yyyy")}
+          <div className="mb-6 grid gap-4 md:grid-cols-2">
+            <div className="flex items-center">
+              <CalendarIcon className="mr-2 h-4 w-4 opacity-70" />
+              <span className="text-sm">
+                {format(new Date(data.startDate), "dd MMM yyyy")} -{" "}
+                {format(new Date(data.endDate), "dd MMM yyyy")}
+              </span>
+            </div>
+            <div className="flex items-center">
+              <MapPinIcon className="mr-2 h-4 w-4 opacity-70" />
+              <span className="text-sm">
+                {data.location || "Location not specified"}
+              </span>
+            </div>
+            <div className="flex items-center">
+              <TicketIcon className="mr-2 h-4 w-4 opacity-70" />
+              <span className="text-sm">
+                {data.avaliableSeats || "Seats not specified"} available seats
+              </span>
+            </div>
+            <div className="flex items-center">
+              <CurrencyDollarIcon className="mr-2 h-4 w-4 opacity-70" />
+              <span className="text-sm">
+                {data.price ? `Rp ${data.price.toFixed(3)}` : "Free"}
+              </span>
+            </div>
+          </div>
+
+          <p className="mb-6 text-muted-foreground">
+            {data.description || "No description available."}
           </p>
-          <p>Event Organizer - {data.user?.name || "Unknown"}</p>
-        </div>
 
-        <div className="relative h-[400px] w-full overflow-hidden rounded-lg">
-          <Image
-            src={data.thumbnail || "/default-thumbnail.jpg"}
-            alt={data.title || "Event Thumbnail"}
-            fill
-            className="object-cover"
-          />
-        </div>
+          <Separator className="my-6" />
 
-        <p className="mt-4 text-gray-600">
-          {data.description || "No description available."}
-        </p>
-
-        <div className="mt-4 text-gray-800">
-          <p>
-            <strong>Location:</strong>{" "}
-            {data.location || "Location not specified"}
-          </p>
-          <p>
-            <strong>avaliableSeats:</strong>{" "}
-            {data.avaliableSeats || "Location not specified"}
-          </p>
-          <p>
-            <strong>Price:</strong>{" "}
-            {data.price ? `Rp ${data.price.toFixed(3)}` : "Free"}
-          </p>
-        </div>
-      </section>
-
-      <section className="mt-6 leading-relaxed text-gray-700">
-        {data.content ? (
-          <div dangerouslySetInnerHTML={{ __html: data.content }} />
-        ) : (
-          <p>No additional content available for this event.</p>
-        )}
-      </section>
+          <div className="prose max-w-none">
+            {data.content ? (
+              <div dangerouslySetInnerHTML={{ __html: data.content }} />
+            ) : (
+              <p>No additional content available for this event.</p>
+            )}
+          </div>
+        </CardContent>
+      </Card>
     </main>
   );
 };

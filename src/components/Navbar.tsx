@@ -22,24 +22,24 @@ const Navbar = () => {
   const logout = () => signOut({});
 
   return (
-    <nav className="sticky top-0 z-30">
+    <nav className="sticky top-0 z-30 bg-white opacity-100">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           <Link href="/" className="text-xl font-bold">
-            Explore<span className="text-orange-500">Tix</span>
+            Explore<span className="text-sky-600">TiK</span>
           </Link>
           <div className="hidden cursor-pointer items-center gap-8 font-medium md:flex">
             <Link href="/">Home</Link>
             <Link href="/events">Event</Link>
             <Link href="/login">Sign in</Link>
             <>
-              <p onClick={() => router.push("/write")}>Create Event</p>
+              <p onClick={() => router.push("/create-event")}>Create Event</p>
               <p onClick={logout}>Logout</p>
             </>
             <ModeToggle />
           </div>
 
-          <div className="flex items-center gap-2 md:hidden">
+          <div className="flex items-center gap-2 bg-white md:hidden">
             <ModeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger>
@@ -54,16 +54,14 @@ const Navbar = () => {
                 <DropdownMenuItem>
                   <Link href="/events">Event</Link>
                 </DropdownMenuItem>
-                (
                 <DropdownMenuItem>
                   <Link href="/login">Sign in</Link>
                 </DropdownMenuItem>
-                )
                 {
                   <>
                     <DropdownMenuItem>
                       <>
-                        <p onClick={() => router.push("/write")}>
+                        <p onClick={() => router.push("/create-event")}>
                           Create Event
                         </p>
                       </>
