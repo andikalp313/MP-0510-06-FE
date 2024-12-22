@@ -14,3 +14,32 @@ export interface Event {
     name: string;
   };
 }
+
+export interface EventData {
+  title: string;
+  description: string;
+  price: number;
+  content: string;
+  eventCategory: string;
+  startDate: string;
+  endDate: string;
+  availableSeats: number;
+  location: string;
+  thumbnail?: File;
+}
+
+export interface EventResponse {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  content: string;
+  eventCategory: string;
+  startDate: string;
+  endDate: string;
+  availableSeats: number;
+  location: string;
+  thumbnailUrl: string;
+  createdAt: string;
+  updatedAt: string;
+}

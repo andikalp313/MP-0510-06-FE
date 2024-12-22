@@ -1,6 +1,7 @@
 "use client";
 
-import { axiosInstamce } from "@/lib/axios";
+
+import { axiosInstance } from "@/lib/axios";
 import { useAppDispatch } from "@/redux/hooks";
 import { loginAction } from "@/redux/slices/userslice";
 import { useMutation } from "@tanstack/react-query";
@@ -18,7 +19,7 @@ const useLogin = () => {
   const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: async (payload: LoginPayload) => {
-      const { data } = await axiosInstamce.post("/auth/login", payload);
+      const { data } = await axiosInstance.post("/auth/login", payload);
       return data;
     },
 

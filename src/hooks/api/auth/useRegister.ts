@@ -1,6 +1,6 @@
 "use client";
 
-import { axiosInstamce } from "@/lib/axios";
+import { axiosInstance } from "@/lib/axios";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { toast } from "react-toastify";
@@ -15,7 +15,7 @@ interface RegisterPayload {
 const useRegister = () => {
   return useMutation({
     mutationFn: async (payload: RegisterPayload) => {
-      const { data } = await axiosInstamce.post("/auth/register", payload);
+      const { data } = await axiosInstance.post("/auth/register", payload);
       return data;
     },
     onSuccess: () => {

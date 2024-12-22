@@ -11,8 +11,9 @@ import {
   FaFutbol,
   FaHeartbeat,
   FaPalette,
+  FaMapMarkerAlt,
 } from "react-icons/fa";
-import { Button } from "@/components/ui/button";
+import { motion } from "framer-motion";
 
 const Navigation = ({
   onCity,
@@ -61,47 +62,64 @@ const Navigation = ({
   };
 
   return (
-    <div>
-      {/* Dropdown Kota */}
-      <div className="mx-auto my-4 w-[90%]">
+    <motion.div
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+      className="rounded-lg bg-gradient-to-r p-6 shadow-md"
+    >
+      {/* City Dropdown */}
+      <div className="mb-6">
         <label
           htmlFor="city-select"
           className="mb-2 block text-sm font-medium text-gray-700"
         >
-          Select a City:
+          Select a City
         </label>
-        <select
-          id="city-select"
-          value={selectedCity}
-          onChange={handleCityChange}
-          className="block w-full rounded-lg border border-gray-300 p-2.5 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500"
-        >
-          <option value="">All Cities</option>
-          {cities.map((city) => (
-            <option key={city} value={city}>
-              {city}
-            </option>
-          ))}
-        </select>
+        <div className="relative">
+          <select
+            id="city-select"
+            value={selectedCity}
+            onChange={handleCityChange}
+            className="block w-full appearance-none rounded-full border border-gray-300 bg-white px-4 py-2 pr-8 text-sm text-gray-900 focus:border-sky-400 focus:outline-none focus:ring-2 focus:ring-sky-400"
+          >
+            <option value="">All Cities</option>
+            {cities.map((city) => (
+              <option key={city} value={city}>
+                {city}
+              </option>
+            ))}
+          </select>
+          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+            <FaMapMarkerAlt className="h-4 w-4" />
+          </div>
+        </div>
       </div>
 
-      {/* Kategori */}
-      <div className="my-7 flex flex-wrap items-center justify-evenly gap-6 bg-white px-6 py-4">
+      {/* Categories */}
+      <div className="grid grid-cols-2 gap-4 rounded-md sm:grid-cols-4 md:grid-cols-8">
         {categories.map((category, index) => (
-          <Button
+          <motion.div
             key={index}
-            onClick={() => handleCategoryClick(category.name)}
-            className={`flex transform cursor-pointer flex-col items-center rounded-lg px-4 py-2 transition-all duration-300 hover:scale-105 hover:bg-gray-100 hover:text-black ${
-              selectedCategory === category.name ? "bg-gray-200 text-black" : ""
-            }`}
-            aria-label={`Filter by ${category.name}`}
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
           >
-            <div className="mb-1 text-2xl">{category.icon}</div>
-            <span className="text-xs font-semibold">{category.name}</span>
-          </Button>
+            <Badge
+              variant="outline"
+              onClick={() => handleCategoryClick(category.name)}
+              className={`flex h-24 w-full cursor-pointer flex-col items-center justify-center rounded-md transition-all duration-300 ${
+                selectedCategory === category.name
+                  ? "bg-sky-400 text-white"
+                  : "bg-white text-gray-700 hover:bg-sky-200"
+              }`}
+            >
+              <div className="mb-2 text-3xl">{category.icon}</div>
+              <span className="text-xs font-semibold">{category.name}</span>
+            </Badge>
+          </motion.div>
         ))}
       </div>
-    </div>
+    </motion.div>
   );
 };
 

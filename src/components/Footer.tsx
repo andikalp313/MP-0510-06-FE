@@ -9,7 +9,7 @@ export default function Footer() {
           </div>
 
           {/* Navigation Links */}
-          <div className="mt-4 flex space-x-6 md:mt-0">
+          <div className="mt-4 flex flex-col space-y-4 md:mt-0 md:flex-row md:space-x-6 md:space-y-0">
             <a href="#" className="hover:text-gray-400">
               About Us
             </a>
