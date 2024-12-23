@@ -65,9 +65,20 @@ const LoginPage = () => {
             <Button type="submit" className="mt-4 w-full" disabled={isPending}>
               {isPending ? "loading..." : "Login"}
             </Button>
-            <Link href="/register" className="mt-4 flex justify-center text-xs">
-              Don't Have an account ? Register Here
-            </Link>
+            <div className="flex justify-between">
+              <Link
+                href="/register"
+                className="mt-4 flex justify-center text-xs"
+              >
+                Register Here
+              </Link>
+              <Link
+                href="/forgot-password"
+                className="mt-4 flex justify-center text-xs"
+              >
+                forgot password?
+              </Link>
+            </div>
           </form>
         </CardContent>
       </Card>

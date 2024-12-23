@@ -6,29 +6,31 @@ import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { toast } from "react-toastify";
 
-interface RegisterPayload {
-  name: string;
+interface useForgotPasswordPayload {
   email: string;
-  password: string;
-  referredBy: string;
 }
 
-const useRegister = () => {
+const useForgotPassword = () => {
   const router = useRouter();
-  return useMutation({
-    mutationFn: async (payload: RegisterPayload) => {
-      const { data } = await axiosInstance.post("/auth/register", payload);
-      return data;
 
+  return useMutation({
+    mutationFn: async (payload: useForgotPasswordPayload) => {
+      const { data } = await axiosInstance.post(
+        "/auth/forgot-password",
+        payload,
+      );
+      return data;
     },
+
     onSuccess: () => {
-      toast.success("Register success");
-      router.push("/login");
+      toast.success("Send email success");
+      router.push("/");
     },
+
     onError: (error: AxiosError<any>) => {
       toast.error(error.response?.data);
     },
   });
 };
 
-export default useRegister;
+export default useForgotPassword;
