@@ -14,7 +14,7 @@ interface CreateEventPayload {
   eventCategory: string;
   startDate: Date;
   endDate: Date;
-  availableSeats: number;
+  avaliableSeats: number;
   location: string;
   thumbnail: File | null;
 }
@@ -30,33 +30,31 @@ const useCreateEvent = () => {
 
       createEventForm.append("title", payload.title);
       createEventForm.append("description", payload.description);
-      createEventForm.append("category", payload.eventCategory);
+      createEventForm.append("eventCategory", payload.eventCategory);
       createEventForm.append("content", payload.content);
       createEventForm.append("price", payload.price.toString());
       createEventForm.append("startDate", payload.startDate.toISOString());
       createEventForm.append("endDate", payload.endDate.toISOString());
       createEventForm.append(
-        "availableSeats",
-        payload.availableSeats.toString(),
+        "avaliableSeats",
+        payload.avaliableSeats.toString(),
       );
       createEventForm.append("location", payload.location);
-      if (payload.thumbnail) {
-        createEventForm.append("thumbnail", payload.thumbnail);
-      }
+      createEventForm.append("thumbnail", payload.thumbnail!);
 
-      const { data } = await axiosInstance.post("/events", createEventForm);
+      const { data } = await axiosInstance.post(
+        "/events/create-event",
+        createEventForm,
+      );
       return data;
     },
-    onSuccess: () => {
-      toast.success("Event created successfully!");
-      queryClient.invalidateQueries({ queryKey: ["events"] });
+    onSuccess: async () => {
+      toast.success("Create Event success");
+      await queryClient.invalidateQueries({ queryKey: ["event-storage"] });
       router.push("/");
     },
     onError: (error: AxiosError<any>) => {
-      toast.error(
-        error.response?.data.message ||
-          "An error occurred while creating the event.",
-      );
+      toast.error(error.response?.data.message || error.response?.data);
     },
   });
 };

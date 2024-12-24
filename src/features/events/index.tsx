@@ -12,7 +12,7 @@ import { Event } from "@/types/event";
 import { Loader2, Search, Calendar, MapPin } from "lucide-react";
 import { motion } from "framer-motion";
 
-const EventList = () => {
+const EventListPage = () => {
   const [category, setCategory] = useState<string>("");
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>("");
@@ -135,4 +135,4 @@ const EventList = () => {
   );
 };
 
-export default EventList;
+export default EventListPage;

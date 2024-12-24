@@ -1,6 +1,5 @@
 "use client";
 
-
 import { axiosInstance } from "@/lib/axios";
 import { useAppDispatch } from "@/redux/hooks";
 import { loginAction } from "@/redux/slices/userslice";
@@ -15,7 +14,7 @@ interface LoginPayload {
 }
 
 const useLogin = () => {
-  const router = useRouter()
+  const router = useRouter();
   const dispatch = useAppDispatch();
   return useMutation({
     mutationFn: async (payload: LoginPayload) => {
@@ -26,8 +25,8 @@ const useLogin = () => {
     onSuccess: (data) => {
       toast.success("wellcome");
       dispatch(loginAction(data));
-      localStorage.setItem("blog-storage", JSON.stringify(data));
-      router.replace("/")
+      localStorage.setItem("event-storage", JSON.stringify(data));
+      router.replace("/");
     },
 
     onError: (error: AxiosError<any>) => {
