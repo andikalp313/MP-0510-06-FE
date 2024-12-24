@@ -15,8 +15,9 @@ import {
 import useGetEventsByUser from "@/hooks/api/event/useGetEventsByUser";
 import useCreateVoucher from "@/hooks/api/voucher/useCreateVoucher";
 import { useFormik } from "formik";
-import { DateInput } from "@/components/DateInput";
+// import { DateInput } from "@/components/DateInput";
 import { createVoucherSchema } from "./schema";
+import { Input } from "@/components/ui/input";
 
 const CreateVoucherPage = () => {
   const { mutateAsync: createVoucher, isPending } = useCreateVoucher();
@@ -92,15 +93,20 @@ const CreateVoucherPage = () => {
         </div>
 
         {/* Expired Date Field */}
-        <div>
-          <Label htmlFor="expDate">Expired Date</Label>
-          <DateInput
-            value={formik.values.expDate}
-            onChange={(date) => formik.setFieldValue("expDate", date)}
-          />
-          {formik.touched.expDate && formik.errors.expDate && (
-            <div className="text-sm text-red-600">{formik.errors.expDate}</div>
-          )}
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="expDate">End Date</Label>
+            <Input
+              name="expDate"
+              type="date"
+              value={formik.values.expDate}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {!!formik.touched.expDate && !!formik.errors.expDate ? (
+              <p className="text-xs text-red-500">{formik.errors.expDate}</p>
+            ) : null}
+          </div>
         </div>
 
         {/* Select Event Field */}
