@@ -35,13 +35,13 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <StoreProvider>
-          <ThemeProvider
-            attribute="class"
-            defaultTheme="system"
-            enableSystem
-            disableTransitionOnChange
-          >
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <StoreProvider>
             <AuthProvider>
               <ReactQueryProvider>
                 <Navbar />
@@ -49,8 +49,8 @@ export default function RootLayout({
               </ReactQueryProvider>
               <ToastContainer />
             </AuthProvider>
-          </ThemeProvider>
-        </StoreProvider>
+          </StoreProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

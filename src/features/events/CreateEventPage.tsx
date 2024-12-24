@@ -9,6 +9,17 @@ import useCreateEvent from "@/hooks/api/event/useCreateEvent";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
+import { CreateEventSchema } from "./schema";
+
+enum EventCategory {
+  TECHNOLOGY = "TECHNOLOGY",
+  BUSINESS = "BUSINESS",
+  EDUCATION = "EDUCATION",
+  ENTERTAINMENT = "ENTERTAINMENT",
+  SPORTS = "SPORTS",
+  HEALTH = "HEALTH",
+  ART = "ART",
+}
 
 const CreateEventPage = () => {
   const { mutateAsync: createEvent, isPending } = useCreateEvent();
@@ -16,16 +27,17 @@ const CreateEventPage = () => {
   const formik = useFormik({
     initialValues: {
       title: "",
-      eventCategory: "",
+      eventCategory: EventCategory.TECHNOLOGY,
       description: "",
       content: "",
       price: 0,
       startDate: "",
       endDate: "",
-      availableSeats: 0,
+      avaliableSeats: 0,
       location: "",
       thumbnail: null,
     },
+    validationSchema: CreateEventSchema,
     onSubmit: async (values) => {
       const payload = {
         ...values,
@@ -78,14 +90,19 @@ const CreateEventPage = () => {
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="eventCategory">Category</Label>
-            <Input
+            <select
               name="eventCategory"
-              type="text"
-              placeholder="Category"
               value={formik.values.eventCategory}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-            />
+              className="input"
+            >
+              {Object.values(EventCategory).map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
+              ))}
+            </select>
             {!!formik.touched.eventCategory && !!formik.errors.eventCategory ? (
               <p className="text-xs text-red-500">
                 {formik.errors.eventCategory}
@@ -165,19 +182,19 @@ const CreateEventPage = () => {
 
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="availableSeats">Available Seats</Label>
+            <Label htmlFor="avaliableSeats">Available Seats</Label>
             <Input
-              name="availableSeats"
+              name="avaliableSeats"
               type="number"
               placeholder="Available Seats"
-              value={formik.values.availableSeats}
+              value={formik.values.avaliableSeats}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {!!formik.touched.availableSeats &&
-            !!formik.errors.availableSeats ? (
+            {!!formik.touched.avaliableSeats &&
+            !!formik.errors.avaliableSeats ? (
               <p className="text-xs text-red-500">
-                {formik.errors.availableSeats}
+                {formik.errors.avaliableSeats}
               </p>
             ) : null}
           </div>
@@ -236,6 +253,7 @@ const CreateEventPage = () => {
             onChange={onChangeThumbnail}
           />
         </div>
+        <div></div>
 
         <div className="flex justify-end">
           <Button type="submit" className="my-10" disabled={isPending}>
