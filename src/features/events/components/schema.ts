@@ -12,7 +12,13 @@ export const CreateEventSchema = Yup.object().shape({
     .required("Description is required")
     .min(10, "Description must be at least 10 characters"),
   content: Yup.string().required("Content is required"),
-  price: Yup.number()
+  priceReguler: Yup.number()
+    .required("Price is required")
+    .min(0, "Price cannot be negative"),
+  priceVip: Yup.number()
+    .required("Price is required")
+    .min(0, "Price cannot be negative"),
+  priceVvip: Yup.number()
     .required("Price is required")
     .min(0, "Price cannot be negative"),
   startDate: Yup.date()
@@ -22,7 +28,13 @@ export const CreateEventSchema = Yup.object().shape({
     .required("End date is required")
     .typeError("Invalid date format")
     .min(Yup.ref("startDate"), "End date cannot be before start date"),
-  avaliableSeats: Yup.number()
+  avaliableSeatsReguler: Yup.number()
+    .required("Available seats are required")
+    .min(1, "Available seats must be at least 1"),
+  avaliableSeatsVip: Yup.number()
+    .required("Available seats are required")
+    .min(1, "Available seats must be at least 1"),
+  avaliableSeatsVvip: Yup.number()
     .required("Available seats are required")
     .min(1, "Available seats must be at least 1"),
   location: Yup.string()

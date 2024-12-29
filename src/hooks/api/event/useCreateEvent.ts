@@ -9,12 +9,16 @@ import { toast } from "react-toastify";
 interface CreateEventPayload {
   title: string;
   description: string;
-  price: number;
+  priceReguler: number;
+  priceVip: number;
+  priceVvip: number;
   content: string;
   eventCategory: string;
   startDate: Date;
   endDate: Date;
-  avaliableSeats: number;
+  avaliableSeatsReguler: number;
+  avaliableSeatsVip: number;
+  avaliableSeatsVvip: number;
   location: string;
   thumbnail: File | null;
 }
@@ -32,12 +36,22 @@ const useCreateEvent = () => {
       createEventForm.append("description", payload.description);
       createEventForm.append("eventCategory", payload.eventCategory);
       createEventForm.append("content", payload.content);
-      createEventForm.append("price", payload.price.toString());
+      createEventForm.append("priceReguler", payload.priceReguler.toString());
+      createEventForm.append("priceVip", payload.priceVip.toString());
+      createEventForm.append("priceVvip", payload.priceVvip.toString());
       createEventForm.append("startDate", payload.startDate.toISOString());
       createEventForm.append("endDate", payload.endDate.toISOString());
       createEventForm.append(
-        "avaliableSeats",
-        payload.avaliableSeats.toString(),
+        "avaliableSeatsReguler",
+        payload.avaliableSeatsReguler.toString(),
+      );
+      createEventForm.append(
+        "avaliableSeatsVip",
+        payload.avaliableSeatsVip.toString(),
+      );
+      createEventForm.append(
+        "avaliableSeatsVvip",
+        payload.avaliableSeatsVvip.toString(),
       );
       createEventForm.append("location", payload.location);
       createEventForm.append("thumbnail", payload.thumbnail!);

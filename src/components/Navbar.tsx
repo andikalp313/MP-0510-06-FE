@@ -44,6 +44,7 @@ const Navbar = () => {
               <p onClick={() => router.push("/create-voucher")}>
                 Create Voucher
               </p>
+              <p onClick={() => router.push("/transaction")}>Transaction</p>
               {!user.id && <Link href="/login">Sign in</Link>}
               {!!user.id && <p onClick={logout}>Logout</p>}
             </>

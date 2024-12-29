@@ -9,7 +9,7 @@ import useCreateEvent from "@/hooks/api/event/useCreateEvent";
 import { useFormik } from "formik";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
-import { CreateEventSchema } from "./schema";
+import { CreateEventSchema } from "./components/schema";
 
 enum EventCategory {
   TECHNOLOGY = "TECHNOLOGY",
@@ -30,10 +30,14 @@ const CreateEventPage = () => {
       eventCategory: EventCategory.TECHNOLOGY,
       description: "",
       content: "",
-      price: 0,
+      priceReguler: 0,
+      priceVip: 0,
+      priceVvip: 0,
       startDate: "",
       endDate: "",
-      avaliableSeats: 0,
+      avaliableSeatsReguler: 0,
+      avaliableSeatsVip: 0,
+      avaliableSeatsVvip: 0,
       location: "",
       thumbnail: null,
     },
@@ -133,17 +137,51 @@ const CreateEventPage = () => {
 
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="price">Price</Label>
+            <Label htmlFor="priceReguler">Price Reguler</Label>
             <Input
-              name="price"
+              name="priceReguler"
               type="number"
-              placeholder="Price"
-              value={formik.values.price}
+              placeholder="Price Reguler"
+              value={formik.values.priceReguler}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {!!formik.touched.price && !!formik.errors.price ? (
-              <p className="text-xs text-red-500">{formik.errors.price}</p>
+            {!!formik.touched.priceReguler && !!formik.errors.priceReguler ? (
+              <p className="text-xs text-red-500">
+                {formik.errors.priceReguler}
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="priceVip">Price Vip</Label>
+            <Input
+              name="priceVip"
+              type="number"
+              placeholder="Price Vip"
+              value={formik.values.priceVip}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {!!formik.touched.priceVip && !!formik.errors.priceVip ? (
+              <p className="text-xs text-red-500">{formik.errors.priceVip}</p>
+            ) : null}
+          </div>
+        </div>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="priceVvip">Price Vvip</Label>
+            <Input
+              name="priceVvip"
+              type="number"
+              placeholder="Price Vvip"
+              value={formik.values.priceVvip}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {!!formik.touched.priceVvip && !!formik.errors.priceVvip ? (
+              <p className="text-xs text-red-500">{formik.errors.priceVvip}</p>
             ) : null}
           </div>
         </div>
@@ -182,19 +220,59 @@ const CreateEventPage = () => {
 
         <div className="grid w-full items-center gap-4">
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="avaliableSeats">Available Seats</Label>
+            <Label htmlFor="avaliableSeatsReguler">
+              Available Seats Reguler
+            </Label>
             <Input
-              name="avaliableSeats"
+              name="avaliableSeatsReguler"
               type="number"
-              placeholder="Available Seats"
-              value={formik.values.avaliableSeats}
+              placeholder="Available Seats Reguler"
+              value={formik.values.avaliableSeatsReguler}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
             />
-            {!!formik.touched.avaliableSeats &&
-            !!formik.errors.avaliableSeats ? (
+            {!!formik.touched.avaliableSeatsReguler &&
+            !!formik.errors.avaliableSeatsReguler ? (
               <p className="text-xs text-red-500">
-                {formik.errors.avaliableSeats}
+                {formik.errors.avaliableSeatsReguler}
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="avaliableSeatsVip">Available Seats Vip</Label>
+            <Input
+              name="avaliableSeatsVip"
+              type="number"
+              placeholder="Available Seats Vip"
+              value={formik.values.avaliableSeatsVip}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {!!formik.touched.avaliableSeatsVip &&
+            !!formik.errors.avaliableSeatsVip ? (
+              <p className="text-xs text-red-500">
+                {formik.errors.avaliableSeatsVip}
+              </p>
+            ) : null}
+          </div>
+        </div>
+        <div className="grid w-full items-center gap-4">
+          <div className="flex flex-col space-y-1.5">
+            <Label htmlFor="avaliableSeatsVvip">Available Seats Vvip</Label>
+            <Input
+              name="avaliableSeatsVvip"
+              type="number"
+              placeholder="Available Seats Vvip"
+              value={formik.values.avaliableSeatsVvip}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+            />
+            {!!formik.touched.avaliableSeatsVvip &&
+            !!formik.errors.avaliableSeatsVvip ? (
+              <p className="text-xs text-red-500">
+                {formik.errors.avaliableSeatsVvip}
               </p>
             ) : null}
           </div>
