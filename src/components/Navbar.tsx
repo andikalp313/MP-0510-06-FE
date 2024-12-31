@@ -40,11 +40,6 @@ const Navbar = () => {
             <Link href="/">Home</Link>
             <Link href="/events">Event</Link>
             <>
-              <p onClick={() => router.push("/create-event")}>Create Event</p>
-              <p onClick={() => router.push("/create-voucher")}>
-                Create Voucher
-              </p>
-              <p onClick={() => router.push("/transaction")}>Transaction</p>
               {!user.id && <Link href="/login">Sign in</Link>}
               {!!user.id && <p onClick={logout}>Logout</p>}
             </>

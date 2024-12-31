@@ -1,3 +1,4 @@
+// hooks/api/transaction/useTransaction.ts
 "use client";
 
 import useAxios from "@/hooks/api/useAxios";
@@ -33,13 +34,13 @@ const useCreateTransaction = () => {
       return data;
     },
 
-    onSuccess: async () => {
+    onSuccess: async (data) => {
       toast.success("Create Transaction success");
       // Jika Anda menyimpan cache daftar transaksi, bisa di-invalidate di sini.
-      // await queryClient.invalidateQueries({ queryKey: ["transaction-list"] });
+      await queryClient.invalidateQueries({ queryKey: ["transaction-list"] });
 
-      // Arahkan user ke halaman lain setelah sukses, misal daftar transaksi
-      router.push("/");
+      // Arahkan user ke halaman detail transaksi
+      router.push(`/transactions/${data.id}`);
     },
 
     onError: (error: AxiosError<any>) => {
