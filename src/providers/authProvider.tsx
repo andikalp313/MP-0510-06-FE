@@ -1,17 +1,17 @@
 "use client";
 
-import LoadingScreen from "@/components/LoadingPage";
+import LoadingScreen from "@/components/LoadingScreen";
 import { useAppDispatch } from "@/redux/hooks";
 import { loginAction } from "@/redux/slices/userslice";
 import { PropsWithChildren, useEffect, useState } from "react";
 
-const authProvider = ({ children }: PropsWithChildren) => {
+const AuthProvider = ({ children }: PropsWithChildren) => {
   const dispatch = useAppDispatch();
-  const [isLoading, setIsLoading] = useState(true);
+
+  const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const data = localStorage.getItem("blog-storage");
-
     if (data) {
       dispatch(loginAction(JSON.parse(data)));
     }
@@ -21,11 +21,11 @@ const authProvider = ({ children }: PropsWithChildren) => {
     }, 1000);
   }, []);
 
-  if (isLoading) {
+  if (isloading) {
     return <LoadingScreen />;
   }
 
   return <>{children}</>;
 };
 
-export default authProvider;
+export default AuthProvider;

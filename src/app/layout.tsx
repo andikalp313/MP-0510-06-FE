@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import Footer from "@/components/Footer";
 import StoreProvider from "@/providers/storeProvider";
-import AuthProvider from "@/providers/authProvider";
+import AuthProvider from "@/providers/AuthProvider";
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
