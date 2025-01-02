@@ -1,4 +1,7 @@
+import { ReactNode } from "react";
 export interface Event {
+  totalReviews: ReactNode;
+  averageRating(averageRating: any): number;
   id: string;
   title: string;
   thumbnail: string;

@@ -12,16 +12,21 @@ import { formatRupiah } from "../../utils/formatRupiah";
 import SkeletonEvent from "./components/SkeletonEvent";
 import { Button } from "@/components/ui/button";
 import { TransactionForm } from "@/components/TransactionForm";
+import CreateReviewForm from "../../features/review/components/CreateReviewForm"; // Pastikan path sesuai
+import ReviewListt from "../../features/review/index"; // Path benar
 
 interface EventDetailPageProps {
   eventId: number;
 }
 
 const EventDetailPage: FC<EventDetailPageProps> = ({ eventId }) => {
-  const { data: event, isPending, error } = useGetEvent(eventId);
+  const { data: event, isLoading, error } = useGetEvent(eventId);
   const [showTransactionForm, setShowTransactionForm] = useState(false);
 
-  if (isPending) {
+  // State untuk mengontrol visibilitas ulasan
+  const [showReviews, setShowReviews] = useState(false);
+
+  if (isLoading) {
     return <SkeletonEvent />;
   }
 
@@ -145,9 +150,8 @@ const EventDetailPage: FC<EventDetailPageProps> = ({ eventId }) => {
               <p>No additional content available for this event.</p>
             )}
           </div>
-
           {/* Tombol Buy Ticket */}
-          <div className="mt-6">
+          <div className="my-20">
             <Button onClick={() => setShowTransactionForm(true)}>
               Buy Ticket
             </Button>
@@ -159,6 +163,39 @@ const EventDetailPage: FC<EventDetailPageProps> = ({ eventId }) => {
               event={{ ...event, id: parseInt(event.id) }} // Convert id to a number
               onClose={() => setShowTransactionForm(false)}
             />
+          )}
+
+          {/* Informasi Rating */}
+          <div className="mt-4 flex items-center space-x-2">
+            <span className="text-lg text-yellow-500">
+              {"⭐".repeat(Math.round(Number(event.averageRating)))}
+            </span>
+            <span className="text-sm text-gray-700">
+              {event.averageRating.toString()} dari {event.totalReviews} ulasan
+            </span>
+          </div>
+
+          {/* Tombol untuk Menampilkan/Unggah Ulasan */}
+          <div className="mt-4">
+            <Button
+              variant="outline"
+              onClick={() => setShowReviews(!showReviews)}
+            >
+              {showReviews ? "Hide Reviews" : "Show Reviews"}
+            </Button>
+          </div>
+
+          {/* Render Ulasan dan Formulir jika showReviews true */}
+          {showReviews && (
+            <>
+              <ReviewListt eventId={Number(event.id)} />
+              <Separator className="my-6" />
+
+              <div className="mt-8">
+                <h2 className="mb-4 text-2xl font-semibold">Leave a Review</h2>
+                <CreateReviewForm eventId={eventId} />
+              </div>
+            </>
           )}
         </CardContent>
       </Card>
