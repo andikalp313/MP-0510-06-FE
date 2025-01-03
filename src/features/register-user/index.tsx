@@ -88,11 +88,11 @@ const RegisterUserPage = () => {
                 <Label htmlFor="role">Role</Label>
                 <select
                   name="role"
-                  value={role} // Kontrol nilai berdasarkan state
+                  value={role} 
                   onChange={(e) => {
                     const selectedRole = e.target.value;
-                    setRole(selectedRole); // Update state
-                    formik.setFieldValue("role", selectedRole); // Update formik value
+                    setRole(selectedRole); 
+                    formik.setFieldValue("role", selectedRole); 
                   }}
                   onBlur={formik.handleBlur}
                   className="rounded border p-2"
