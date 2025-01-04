@@ -1,56 +1,66 @@
-'use client'
+"use client";
 
-import { Bell, User, LogOut, Settings, Menu } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+import { Button } from "@/components/ui/button";
+import { logoutAction } from "@/redux/slices/userslice";
+import { Bell, LogOut, Settings, User, UserCircle2 } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { useState } from "react";
 
-interface TopBarProps {
-  onMenuClick: () => void
-}
+export function Navbar() {
+  const dispatch = useDispatch();
+  const router = useRouter();
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-export function TopBar({ onMenuClick }: TopBarProps) {
+  const logOut = () => {
+    localStorage.removeItem("blog-storage");
+    dispatch(logoutAction());
+    router.push("/login");
+  };
+
   return (
-    <div className="flex items-center justify-between p-4 bg-white border-b">
-      <div className="flex items-center">
-        <Button variant="ghost" size="icon" className="md:hidden mr-2" onClick={onMenuClick}>
-          <Menu className="h-6 w-6" />
-        </Button>
-        <h1 className="text-xl md:text-2xl font-semibold text-gray-900">Event Management Dashboard</h1>
-      </div>
+    <div className="flex items-center justify-between bg-white p-4 shadow-sm">
+      <h2 className="text-xl font-bold">Event Management Dashboard</h2>
+
       <div className="flex items-center space-x-4">
         <Button variant="ghost" size="icon">
           <Bell className="h-5 w-5" />
         </Button>
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuItem>
-              <User className="mr-2 h-4 w-4" />
-              <span>Profile</span>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <Settings className="mr-2 h-4 w-4" />
-              <span>Settings</span>
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <LogOut className="mr-2 h-4 w-4" />
-              <span>Log out</span>
-            </DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
+        <div className="relative">
+          <div
+            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full bg-gray-300"
+            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+          >
+            <User className="h-5 w-5" />
+          </div>
+          {isDropdownOpen && (
+            <div className="absolute right-0 z-10 mt-2 w-48 rounded-lg bg-white shadow-lg">
+              <ul className="py-2 text-sm text-gray-700">
+                <li
+                  className="flex items-center cursor-pointer px-4 py-2 hover:bg-gray-100"
+                  onClick={() => router.push("/profile")}
+                >
+                  <UserCircle2 className="mr-2 h-4 w-4 text-gray-500" />
+                  Profile
+                </li>
+                <li
+                  className="flex items-center cursor-pointer px-4 py-2 hover:bg-gray-100"
+                  onClick={() => router.push("/dashboard/profile")}
+                >
+                  <Settings className="mr-2 h-4 w-4 text-gray-500" />
+                  Setting Account
+                </li>
+                <li
+                  className="flex items-center cursor-pointer px-4 py-2 text-red-500 hover:bg-gray-100"
+                >
+                  <p onClick={logOut} className="mr-2 h-4 w-4 text-red-500" />
+                  Log Out
+                </li>
+              </ul>
+            </div>
+          )}
+        </div>
       </div>
     </div>
-  )
+  );
 }
-

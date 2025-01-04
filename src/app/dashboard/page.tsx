@@ -1,6 +1,10 @@
-import Dashboard from "@/features/dashboard/component/dashboard";
+import OverviewPage from "@/features/dashboard/component/overview/overview";
 
 export default function Home() {
-  return <Dashboard />
+  return (
+    <div>
+      <OverviewPage/>
+    </div>
+  )
 }
 

@@ -25,7 +25,7 @@ const useLogin = () => {
     onSuccess: (data) => {
       toast.success("wellcome");
       dispatch(loginAction(data));
-      localStorage.setItem("event-storage", JSON.stringify(data));
+      localStorage.setItem("auth-storage", JSON.stringify(data));
       router.replace("/");
     },
 
