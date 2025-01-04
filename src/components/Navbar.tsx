@@ -39,6 +39,8 @@ const Navbar = () => {
           <div className="hidden cursor-pointer items-center gap-8 font-medium md:flex">
             <Link href="/">Home</Link>
             <Link href="/events">Event</Link>
+            <Link href="/create-event">Create Event</Link>
+            <Link href="/create-voucher">Create Voucher</Link>
             <>
               {!user.id && <Link href="/login">Sign in</Link>}
               {!!user.id && <p onClick={logout}>Logout</p>}

@@ -1,5 +1,8 @@
 import { ReactNode } from "react";
 export interface Event {
+  vouchers: any;
+  voucher: any;
+  userId: number;
   totalReviews: ReactNode;
   averageRating(averageRating: any): number;
   id: string;

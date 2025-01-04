@@ -38,23 +38,36 @@ const TransactionDetail: React.FC = () => {
   }, [isError, error]);
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-sky-50">
+        <div className="text-lg text-sky-600">Loading...</div>
+      </div>
+    );
   }
 
   if (isError) {
-    return <div>Error: {error.message}</div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-red-50">
+        <div className="text-lg text-red-600">Error: {error.message}</div>
+      </div>
+    );
   }
 
   if (!data) {
-    return <div>Transaction not found</div>;
+    return (
+      <div className="flex h-screen items-center justify-center bg-yellow-50">
+        <div className="text-lg text-yellow-600">Transaction not found</div>
+      </div>
+    );
   }
 
   const renderTransferInstructions = () => {
     if (paymentMethod === "BRIMO") {
       return (
-        <div>
+        <div className="mt-4 space-y-2 text-gray-700">
           <p>
-            Silakan transfer sejumlah <strong>Rp {data.totalPrice}</strong> ke
+            Silakan transfer sejumlah{" "}
+            <strong className="text-sky-600">Rp {data.totalPrice}</strong> ke
             rekening berikut:
           </p>
           <ul className="list-inside list-disc">
@@ -70,15 +83,16 @@ const TransactionDetail: React.FC = () => {
           </ul>
           <p>
             Setelah melakukan transfer, Anda dapat mengupload bukti transfer
-            pada form dibawah
+            pada form di bawah.
           </p>
         </div>
       );
     } else if (paymentMethod === "GOPAY") {
       return (
-        <div>
+        <div className="mt-4 space-y-2 text-gray-700">
           <p>
-            Silakan transfer sejumlah <strong>Rp {data.totalPrice}</strong>{" "}
+            Silakan transfer sejumlah{" "}
+            <strong className="text-sky-600">Rp {data.totalPrice}</strong>{" "}
             melalui Gopay ke nomor berikut:
           </p>
           <ul className="list-inside list-disc">
@@ -86,16 +100,16 @@ const TransactionDetail: React.FC = () => {
               <strong>Nomor Gopay:</strong> 082178342897
             </li>
           </ul>
-          <div>
+          <div className="mt-4">
             <p>
               Setelah melakukan transfer, Anda dapat mengupload bukti transfer
               pada form di bawah.
             </p>
-            <div className="rounded-md">
+            <div className="mt-2 overflow-hidden rounded-md shadow-lg">
               <img
                 src="/gopay.jpeg"
-                alt="gopay"
-                className="h-[500px] rounded-md"
+                alt="Gopay"
+                className="h-auto w-full object-cover"
               />
             </div>
           </div>
@@ -140,141 +154,186 @@ const TransactionDetail: React.FC = () => {
       },
       {
         onSuccess: () => {
+          toast.success("Bukti pembayaran berhasil diupload.");
           // Reset file input
           setSelectedFile(null);
+          // Invalidate and refetch transactions
+          queryClient.invalidateQueries({
+            queryKey: ["transaction", transactionId],
+          });
+        },
+        onError: (err: any) => {
+          toast.error(err.message || "Gagal mengupload bukti pembayaran.");
         },
       },
     );
   };
 
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="mb-4 text-2xl font-bold">Transaction Detail</h1>
-      <div className="mb-4 rounded bg-white px-8 pb-8 pt-6 shadow-md">
-        <p>
-          <strong>Transaction Id:</strong> {data.id}
-        </p>
-        <p>
-          <strong>Username:</strong> {data.user.name}
-        </p>
-
-        <p>
-          <strong>Order Event :</strong> {data.event.title}
-        </p>
-        <p>
-          <strong>Quantity:</strong> {data.quantity}
-        </p>
-        <p>
-          <strong>Total Price:</strong> Rp {data.totalPrice}
-        </p>
-        <p>
-          <strong>Status:</strong> {data.status}
-        </p>
-        <p>
-          <strong>Expires At:</strong>{" "}
-          {new Date(data.expiresAt).toLocaleString("id-ID")}
-        </p>
-        {data.paymentProof && (
-          <div className="mt-4">
-            <strong>Bukti Pembayaran:</strong>
-            <div className="mt-2">
-              <img
-                src={data.paymentProof}
-                alt="Payment Proof"
-                className="max-w-xs rounded"
-              />
-            </div>
+    <div className="min-h-screen bg-gradient-to-b from-sky-50 to-sky-100 p-6">
+      <div className="mx-auto max-w-4xl rounded-2xl bg-white p-8 shadow-xl">
+        <h1 className="mb-6 text-3xl font-bold text-sky-700">
+          Detail Transaksi
+        </h1>
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
+          {/* Informasi Transaksi */}
+          <div className="space-y-2">
+            <p>
+              <strong className="text-sky-600">Transaction Id:</strong>{" "}
+              {data.id}
+            </p>
+            <p>
+              <strong className="text-sky-600">Username:</strong>{" "}
+              {data.user.name}
+            </p>
+            <p>
+              <strong className="text-sky-600">Order Event:</strong>{" "}
+              {data.event.title}
+            </p>
+            <p>
+              <strong className="text-sky-600">Quantity:</strong>{" "}
+              {data.quantity}
+            </p>
+            <p>
+              <strong className="text-sky-600">Total Price:</strong> Rp{" "}
+              {data.totalPrice}
+            </p>
+            <p>
+              <strong className="text-sky-600">Status:</strong>{" "}
+              <span
+                className={`font-semibold ${
+                  data.status === "PENDING"
+                    ? "text-yellow-500"
+                    : data.status === "COMPLETED"
+                      ? "text-green-500"
+                      : "text-red-500"
+                }`}
+              >
+                {data.status}
+              </span>
+            </p>
+            <p>
+              <strong className="text-sky-600">Expires At:</strong>{" "}
+              {new Date(data.expiresAt).toLocaleString("id-ID")}
+            </p>
           </div>
-        )}
-      </div>
-      <div className="space-y-2">
-        <Label htmlFor="paymentMethod" className="text-gray-700">
-          Payment Method
-        </Label>
-        <div className="relative">
-          <button
-            type="button"
-            className="w-full rounded-md border border-gray-300 bg-white px-4 py-3 text-left shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
-            onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
+          {/* Bukti Pembayaran */}
+          {data.paymentProof && (
+            <div className="space-y-2">
+              <strong className="text-sky-600">Bukti Pembayaran:</strong>
+              <div className="overflow-hidden rounded-lg shadow-md">
+                <img
+                  src={data.paymentProof}
+                  alt="Payment Proof"
+                  className="h-auto w-full object-cover"
+                />
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* Metode Pembayaran */}
+        <div className="mt-8">
+          <Label
+            htmlFor="paymentMethod"
+            className="mb-2 block font-semibold text-sky-600"
           >
-            <div className="flex items-center justify-between">
+            Payment Method
+          </Label>
+          <div className="relative">
+            <button
+              type="button"
+              className="flex w-full items-center justify-between rounded-lg border border-sky-300 bg-sky-50 px-4 py-3 text-sky-700 shadow-sm transition-colors hover:bg-sky-100 focus:outline-none focus:ring-2 focus:ring-sky-500"
+              onClick={() => setIsPaymentDropdownOpen(!isPaymentDropdownOpen)}
+            >
               <span>
                 {paymentMethods.find((p) => p.value === paymentMethod)?.label}
               </span>
               <ChevronDown
                 className={`h-5 w-5 transition-transform duration-200 ${
                   isPaymentDropdownOpen ? "rotate-180" : ""
-                }`}
+                } text-sky-600`}
               />
-            </div>
-          </button>
-          <AnimatePresence>
-            {isPaymentDropdownOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                transition={{ duration: 0.2 }}
-                className="absolute z-10 mt-1 w-full overflow-hidden rounded-md bg-white shadow-lg"
-              >
-                {paymentMethods.map((method) => (
-                  <button
-                    key={method.value}
-                    type="button"
-                    className={`w-full px-4 py-3 text-left text-gray-700 hover:bg-gray-100 focus:outline-none ${
-                      paymentMethod === method.value ? "bg-gray-200" : ""
-                    }`}
-                    onClick={() => {
-                      setPaymentMethod(method.value as "BRIMO" | "GOPAY");
-                      setIsPaymentDropdownOpen(false);
-                    }}
-                  >
-                    {method.label}
-                  </button>
-                ))}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </div>
-      <div className="mt-4">
-        <h2 className="text-xl font-semibold">
-          {paymentMethod === "BRIMO"
-            ? "Instruksi Transfer BRIMO"
-            : "Instruksi Transfer Gopay"}
-        </h2>
-        <div className="mt-2">{renderTransferInstructions()}</div>
-      </div>
-      {data.status === "PENDING" && (
-        <div className="mt-6 rounded bg-white px-8 pb-8 pt-6 shadow-md">
-          <h3 className="mb-4 text-lg font-semibold">
-            Upload Bukti Pembayaran
-          </h3>
-          <form onSubmit={handleUpload}>
-            <div className="mb-4">
-              <Label htmlFor="paymentProof" className="block text-gray-700">
-                Pilih File
-              </Label>
-              <input
-                type="file"
-                id="paymentProof"
-                accept="image/jpeg, image/png"
-                onChange={handleFileChange}
-                className="mt-2 block w-full text-sm text-gray-500 file:mr-4 file:rounded file:border-0 file:bg-blue-50 file:px-4 file:py-2 file:text-sm file:font-semibold file:text-blue-700 hover:file:bg-blue-100"
-              />
-            </div>
-            <button
-              type="submit"
-              disabled={uploadMutation.isPending}
-              className={`w-full rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600 ${
-                uploadMutation.isPending ? "cursor-not-allowed opacity-50" : ""
-              }`}
-            >
-              {uploadMutation.isPending ? "Uploading..." : "Upload Bukti"}
             </button>
-          </form>
+            <AnimatePresence>
+              {isPaymentDropdownOpen && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  className="absolute z-10 mt-1 w-full rounded-lg border border-sky-300 bg-white shadow-lg"
+                >
+                  {paymentMethods.map((method) => (
+                    <button
+                      key={method.value}
+                      type="button"
+                      className={`w-full px-4 py-3 text-left text-sky-700 hover:bg-sky-50 ${
+                        paymentMethod === method.value ? "bg-sky-100" : ""
+                      } transition-colors`}
+                      onClick={() => {
+                        setPaymentMethod(method.value as "BRIMO" | "GOPAY");
+                        setIsPaymentDropdownOpen(false);
+                      }}
+                    >
+                      {method.label}
+                    </button>
+                  ))}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </div>
         </div>
-      )}
+
+        {/* Instruksi Transfer */}
+        <div className="mt-6">
+          <h2 className="text-2xl font-semibold text-sky-700">
+            {paymentMethod === "BRIMO"
+              ? "Instruksi Transfer BRIMO"
+              : "Instruksi Transfer Gopay"}
+          </h2>
+          <div className="mt-3 text-gray-700">
+            {renderTransferInstructions()}
+          </div>
+        </div>
+
+        {/* Upload Bukti Pembayaran */}
+        {data.status === "PENDING" && (
+          <div className="mt-8 rounded-lg bg-sky-50 p-6 shadow-md">
+            <h3 className="mb-4 text-xl font-semibold text-sky-700">
+              Upload Bukti Pembayaran
+            </h3>
+            <form onSubmit={handleUpload}>
+              <div className="mb-4">
+                <Label
+                  htmlFor="paymentProof"
+                  className="mb-2 block font-medium text-sky-600"
+                >
+                  Pilih File
+                </Label>
+                <input
+                  type="file"
+                  id="paymentProof"
+                  accept="image/jpeg, image/png"
+                  onChange={handleFileChange}
+                  className="block w-full text-sm text-sky-700 transition-colors file:rounded-lg file:border file:border-sky-300 file:bg-sky-100 file:px-4 file:py-2 file:text-sky-700 hover:file:bg-sky-200"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={uploadMutation.isPending}
+                className={`w-full rounded-lg bg-sky-600 px-4 py-2 font-semibold text-white transition-colors hover:bg-sky-700 ${
+                  uploadMutation.isPending
+                    ? "cursor-not-allowed opacity-50"
+                    : ""
+                }`}
+              >
+                {uploadMutation.isPending ? "Uploading..." : "Upload Bukti"}
+              </button>
+            </form>
+          </div>
+        )}
+      </div>
     </div>
   );
 };

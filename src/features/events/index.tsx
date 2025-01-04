@@ -1,16 +1,15 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import useGetEvents from "@/hooks/api/event/useGetEvents";
 import PaginationSection from "@/components/PaginationSection";
 import { Input } from "@/components/ui/input";
+import useGetEvents from "@/hooks/api/event/useGetEvents";
+import { Event } from "@/types/event";
+import { motion } from "framer-motion";
+import { Calendar, Loader2, Search } from "lucide-react";
+import { useMemo, useState } from "react";
 import { useDebounceValue } from "usehooks-ts";
 import EventCard from "../events/components/Eventcard";
-import Navigation from "./components/Navgiation";
-import Footer from "@/components/Footer";
-import { Event } from "@/types/event";
-import { Loader2, Search, Calendar, MapPin } from "lucide-react";
-import { motion } from "framer-motion";
+import Navigation from "./components/Navgiation"; // Pastikan nama file benar
 
 const EventListPage = () => {
   const [category, setCategory] = useState<string>("");
@@ -44,6 +43,11 @@ const EventListPage = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3, delay: index * 0.1 }}
+        whileHover={{
+          scale: 1.05,
+          boxShadow: "0px 10px 20px rgba(0, 0, 0, 0.2)",
+        }}
+        className="overflow-hidden rounded-xl bg-white shadow-md"
       >
         <EventCard event={event} />
       </motion.div>
@@ -52,16 +56,16 @@ const EventListPage = () => {
 
   if (error) {
     return (
-      <div className="flex h-screen items-center justify-center bg-gradient-to-r from-red-50 to-red-100">
+      <div className="flex h-screen items-center justify-center bg-gradient-to-r from-sky-100 to-sky-200">
         <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ duration: 0.3 }}
-          className="rounded-lg bg-white p-8 shadow-lg"
+          className="mx-4 max-w-md rounded-lg bg-white p-8 text-center shadow-lg"
         >
-          <h1 className="text-2xl font-bold text-red-600">Oops!</h1>
-          <p className="mt-2 text-gray-600">
-            Failed to load events. Please try again later.
+          <h1 className="text-3xl font-bold text-red-600">Ups!</h1>
+          <p className="mt-4 text-gray-700">
+            Gagal memuat acara. Silakan coba lagi nanti.
           </p>
         </motion.div>
       </div>
@@ -69,33 +73,40 @@ const EventListPage = () => {
   }
 
   return (
-    <main className="min-h-screen">
+    <div className="flex min-h-screen flex-col bg-gradient-to-b from-sky-50 to-sky-100">
+      {/* Navigation */}
       <Navigation onCity={handleCity} onCategory={handleCategory} />
-      <div className="container mx-auto px-4 py-8">
+
+      {/* Main Content */}
+      <main className="container mx-auto flex-grow px-4 py-8">
+        {/* Search Bar */}
         <motion.div
-          initial={{ y: -20, opacity: 0 }}
+          initial={{ y: -30, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ duration: 0.5 }}
           className="relative mx-auto mb-8 max-w-xl"
         >
-          <Search className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-gray-400" />
+          <Search className="absolute left-4 top-1/2 h-5 w-5 -translate-y-1/2 transform text-sky-400" />
           <Input
-            className="rounded-full border-2 border-sky-200 py-2 pl-10 pr-4 transition-colors duration-300 focus:border-sky-400"
-            placeholder="Search events..."
+            className="w-full rounded-full border-2 border-sky-300 py-3 pl-12 pr-4 text-sm text-gray-800 placeholder-gray-500 transition-colors duration-300 focus:border-sky-500 focus:ring-0"
+            placeholder="Cari acara..."
             onChange={(e) => setSearch(e.target.value)}
             value={search}
+            aria-label="Search events"
           />
         </motion.div>
+
+        {/* Loading State */}
         {isLoading ? (
           <motion.div
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="flex h-64 items-center justify-center"
+            className="flex h-64 flex-col items-center justify-center"
           >
-            <Loader2 className="h-8 w-8 animate-spin text-sky-400" />
-            <span className="ml-2 text-lg font-medium text-sky-500">
-              Loading events...
+            <Loader2 className="h-10 w-10 animate-spin text-sky-500" />
+            <span className="mt-4 text-lg font-medium text-sky-600">
+              Memuat acara...
             </span>
           </motion.div>
         ) : !data?.data?.length ? (
@@ -103,23 +114,31 @@ const EventListPage = () => {
             initial={{ scale: 0.9, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.3 }}
-            className="flex h-64 items-center justify-center"
+            className="flex h-64 flex-col items-center justify-center text-center"
           >
-            <Calendar className="mr-4 h-12 w-12 text-sky-400" />
-            <p className="text-center text-xl font-medium text-sky-500">
-              No events found
+            <Calendar className="mb-4 h-14 w-14 text-sky-500" />
+            <p className="text-2xl font-medium text-sky-600">
+              Tidak ada acara ditemukan
             </p>
           </motion.div>
         ) : (
           <>
-            <div className="grid gap-9 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+            {/* Event Cards */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
+            >
               {eventCards}
-            </div>
+            </motion.div>
+
+            {/* Pagination */}
             <motion.div
               initial={{ y: 20, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="mt-8"
+              transition={{ duration: 0.5, delay: 0.3 }}
+              className="mt-12 flex justify-center"
             >
               <PaginationSection
                 onChangePage={onChangePage}
@@ -130,8 +149,8 @@ const EventListPage = () => {
             </motion.div>
           </>
         )}
-      </div>
-    </main>
+      </main>
+    </div>
   );
 };
 

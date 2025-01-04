@@ -1,24 +1,26 @@
 "use client";
 
+import { useFormik } from "formik";
+import Image from "next/image";
+import { ChangeEvent, useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+
 import RichTextEditor from "@/components/ui/RichTextEditor";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useCreateEvent from "@/hooks/api/event/useCreateEvent";
-import { useFormik } from "formik";
-import Image from "next/image";
-import { ChangeEvent, useRef, useState } from "react";
 import { CreateEventSchema } from "./components/schema";
 
 enum EventCategory {
-  TECHNOLOGY = "TECHNOLOGY",
-  BUSINESS = "BUSINESS",
-  EDUCATION = "EDUCATION",
-  ENTERTAINMENT = "ENTERTAINMENT",
-  SPORTS = "SPORTS",
-  HEALTH = "HEALTH",
-  ART = "ART",
+  TECHNOLOGY = "Technology",
+  BUSINESS = "Business",
+  EDUCATION = "Education",
+  ENTERTAINMENT = "Entertainment",
+  SPORTS = "Sports",
+  HEALTH = "Health",
+  ART = "Art",
 }
 
 const CreateEventPage = () => {
@@ -72,34 +74,82 @@ const CreateEventPage = () => {
   };
 
   return (
-    <main className="container mx-auto max-w-5xl px-4">
-      <form className="mt-10 space-y-3" onSubmit={formik.handleSubmit}>
-        <div className="grid w-full items-center gap-4">
+    <motion.main
+      className="container mx-auto max-w-5xl px-4 py-8"
+      initial={{ opacity: 0, y: 50 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5 }}
+    >
+      <motion.h1
+        className="mb-8 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-center text-4xl font-bold text-transparent"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ delay: 0.3, duration: 0.5 }}
+      >
+        Create New Event
+      </motion.h1>
+      <form
+        className="space-y-6 rounded-lg bg-white p-8 shadow-xl"
+        onSubmit={formik.handleSubmit}
+      >
+        {/* Title */}
+        <motion.div
+          className="grid w-full items-center gap-4"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="title">Title</Label>
+            <Label htmlFor="title" className="font-semibold text-gray-700">
+              Title
+            </Label>
             <Input
               name="title"
               type="text"
-              placeholder="Title"
+              placeholder="Enter event title"
               value={formik.values.title}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.title && formik.errors.title
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.title && !!formik.errors.title ? (
-              <p className="text-xs text-red-500">{formik.errors.title}</p>
-            ) : null}
+            {formik.touched.title && formik.errors.title && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
+                {formik.errors.title}
+              </motion.p>
+            )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid w-full items-center gap-4">
+        {/* Category */}
+        <motion.div
+          className="grid w-full items-center gap-4"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="eventCategory">Category</Label>
+            <Label
+              htmlFor="eventCategory"
+              className="font-semibold text-gray-700"
+            >
+              Category
+            </Label>
             <select
               name="eventCategory"
               value={formik.values.eventCategory}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="input"
+              className={`input border bg-white ${
+                formik.touched.eventCategory && formik.errors.eventCategory
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             >
               {Object.values(EventCategory).map((category) => (
                 <option key={category} value={category}>
@@ -107,239 +157,540 @@ const CreateEventPage = () => {
                 </option>
               ))}
             </select>
-            {!!formik.touched.eventCategory && !!formik.errors.eventCategory ? (
-              <p className="text-xs text-red-500">
+            {formik.touched.eventCategory && formik.errors.eventCategory && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
                 {formik.errors.eventCategory}
-              </p>
-            ) : null}
+              </motion.p>
+            )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid w-full items-center gap-4">
+        {/* Description */}
+        <motion.div
+          className="grid w-full items-center gap-4"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="description">Description</Label>
+            <Label
+              htmlFor="description"
+              className="font-semibold text-gray-700"
+            >
+              Description
+            </Label>
             <Textarea
               name="description"
-              placeholder="Description"
+              placeholder="Enter event description"
               value={formik.values.description}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
               rows={4}
-              style={{ resize: "none" }}
+              className={`border ${
+                formik.touched.description && formik.errors.description
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.description && !!formik.errors.description ? (
-              <p className="text-xs text-red-500">
+            {formik.touched.description && formik.errors.description && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
                 {formik.errors.description}
-              </p>
-            ) : null}
+              </motion.p>
+            )}
           </div>
-        </div>
+        </motion.div>
 
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="priceReguler">Price Reguler</Label>
+        {/* Pricing */}
+        <motion.div
+          className="grid grid-cols-1 gap-4 md:grid-cols-3"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          {/* Price Reguler */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label
+              htmlFor="priceReguler"
+              className="font-semibold text-gray-700"
+            >
+              Price Reguler
+            </Label>
             <Input
               name="priceReguler"
               type="number"
-              placeholder="Price Reguler"
+              placeholder="e.g., 50"
               value={formik.values.priceReguler}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.priceReguler && formik.errors.priceReguler
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.priceReguler && !!formik.errors.priceReguler ? (
-              <p className="text-xs text-red-500">
+            {formik.touched.priceReguler && formik.errors.priceReguler && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
                 {formik.errors.priceReguler}
-              </p>
-            ) : null}
-          </div>
-        </div>
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="priceVip">Price Vip</Label>
+              </motion.p>
+            )}
+          </motion.div>
+
+          {/* Price VIP */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label htmlFor="priceVip" className="font-semibold text-gray-700">
+              Price VIP
+            </Label>
             <Input
               name="priceVip"
               type="number"
-              placeholder="Price Vip"
+              placeholder="e.g., 100"
               value={formik.values.priceVip}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.priceVip && formik.errors.priceVip
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.priceVip && !!formik.errors.priceVip ? (
-              <p className="text-xs text-red-500">{formik.errors.priceVip}</p>
-            ) : null}
-          </div>
-        </div>
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="priceVvip">Price Vvip</Label>
+            {formik.touched.priceVip && formik.errors.priceVip && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
+                {formik.errors.priceVip}
+              </motion.p>
+            )}
+          </motion.div>
+
+          {/* Price VVIP */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label htmlFor="priceVvip" className="font-semibold text-gray-700">
+              Price VVIP
+            </Label>
             <Input
               name="priceVvip"
               type="number"
-              placeholder="Price Vvip"
+              placeholder="e.g., 200"
               value={formik.values.priceVvip}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.priceVvip && formik.errors.priceVvip
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.priceVvip && !!formik.errors.priceVvip ? (
-              <p className="text-xs text-red-500">{formik.errors.priceVvip}</p>
-            ) : null}
-          </div>
-        </div>
+            {formik.touched.priceVvip && formik.errors.priceVvip && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
+                {formik.errors.priceVvip}
+              </motion.p>
+            )}
+          </motion.div>
+        </motion.div>
 
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="startDate">Start Date</Label>
+        {/* Dates */}
+        <motion.div
+          className="grid grid-cols-1 gap-4 md:grid-cols-2"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          {/* Start Date */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label htmlFor="startDate" className="font-semibold text-gray-700">
+              Start Date
+            </Label>
             <Input
               name="startDate"
               type="date"
               value={formik.values.startDate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.startDate && formik.errors.startDate
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.startDate && !!formik.errors.startDate ? (
-              <p className="text-xs text-red-500">{formik.errors.startDate}</p>
-            ) : null}
-          </div>
-        </div>
+            {formik.touched.startDate && formik.errors.startDate && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
+                {formik.errors.startDate}
+              </motion.p>
+            )}
+          </motion.div>
 
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="endDate">End Date</Label>
+          {/* End Date */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label htmlFor="endDate" className="font-semibold text-gray-700">
+              End Date
+            </Label>
             <Input
               name="endDate"
               type="date"
               value={formik.values.endDate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.endDate && formik.errors.endDate
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.endDate && !!formik.errors.endDate ? (
-              <p className="text-xs text-red-500">{formik.errors.endDate}</p>
-            ) : null}
-          </div>
-        </div>
+            {formik.touched.endDate && formik.errors.endDate && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
+                {formik.errors.endDate}
+              </motion.p>
+            )}
+          </motion.div>
+        </motion.div>
 
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="avaliableSeatsReguler">
+        {/* Available Seats */}
+        <motion.div
+          className="grid grid-cols-1 gap-4 md:grid-cols-3"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          {/* Seats Reguler */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label
+              htmlFor="avaliableSeatsReguler"
+              className="font-semibold text-gray-700"
+            >
               Available Seats Reguler
             </Label>
             <Input
               name="avaliableSeatsReguler"
               type="number"
-              placeholder="Available Seats Reguler"
+              placeholder="e.g., 100"
               value={formik.values.avaliableSeatsReguler}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.avaliableSeatsReguler &&
+                formik.errors.avaliableSeatsReguler
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.avaliableSeatsReguler &&
-            !!formik.errors.avaliableSeatsReguler ? (
-              <p className="text-xs text-red-500">
-                {formik.errors.avaliableSeatsReguler}
-              </p>
-            ) : null}
-          </div>
-        </div>
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="avaliableSeatsVip">Available Seats Vip</Label>
+            {formik.touched.avaliableSeatsReguler &&
+              formik.errors.avaliableSeatsReguler && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-xs text-red-500"
+                >
+                  {formik.errors.avaliableSeatsReguler}
+                </motion.p>
+              )}
+          </motion.div>
+
+          {/* Seats VIP */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label
+              htmlFor="avaliableSeatsVip"
+              className="font-semibold text-gray-700"
+            >
+              Available Seats VIP
+            </Label>
             <Input
               name="avaliableSeatsVip"
               type="number"
-              placeholder="Available Seats Vip"
+              placeholder="e.g., 50"
               value={formik.values.avaliableSeatsVip}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.avaliableSeatsVip &&
+                formik.errors.avaliableSeatsVip
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.avaliableSeatsVip &&
-            !!formik.errors.avaliableSeatsVip ? (
-              <p className="text-xs text-red-500">
-                {formik.errors.avaliableSeatsVip}
-              </p>
-            ) : null}
-          </div>
-        </div>
-        <div className="grid w-full items-center gap-4">
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="avaliableSeatsVvip">Available Seats Vvip</Label>
+            {formik.touched.avaliableSeatsVip &&
+              formik.errors.avaliableSeatsVip && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-xs text-red-500"
+                >
+                  {formik.errors.avaliableSeatsVip}
+                </motion.p>
+              )}
+          </motion.div>
+
+          {/* Seats VVIP */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label
+              htmlFor="avaliableSeatsVvip"
+              className="font-semibold text-gray-700"
+            >
+              Available Seats VVIP
+            </Label>
             <Input
               name="avaliableSeatsVvip"
               type="number"
-              placeholder="Available Seats Vvip"
+              placeholder="e.g., 20"
               value={formik.values.avaliableSeatsVvip}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.avaliableSeatsVvip &&
+                formik.errors.avaliableSeatsVvip
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.avaliableSeatsVvip &&
-            !!formik.errors.avaliableSeatsVvip ? (
-              <p className="text-xs text-red-500">
-                {formik.errors.avaliableSeatsVvip}
-              </p>
-            ) : null}
-          </div>
-        </div>
+            {formik.touched.avaliableSeatsVvip &&
+              formik.errors.avaliableSeatsVvip && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-xs text-red-500"
+                >
+                  {formik.errors.avaliableSeatsVvip}
+                </motion.p>
+              )}
+          </motion.div>
+        </motion.div>
 
-        <div className="grid w-full items-center gap-4">
+        {/* Location */}
+        <motion.div
+          className="grid w-full items-center gap-4"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
           <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="location">Location</Label>
+            <Label htmlFor="location" className="font-semibold text-gray-700">
+              Location
+            </Label>
             <Input
               name="location"
               type="text"
-              placeholder="Location"
+              placeholder="Enter event location"
               value={formik.values.location}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
+              className={`border ${
+                formik.touched.location && formik.errors.location
+                  ? "border-red-500"
+                  : "border-gray-300"
+              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
             />
-            {!!formik.touched.location && !!formik.errors.location ? (
-              <p className="text-xs text-red-500">{formik.errors.location}</p>
-            ) : null}
+            {formik.touched.location && formik.errors.location && (
+              <motion.p
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="text-xs text-red-500"
+              >
+                {formik.errors.location}
+              </motion.p>
+            )}
           </div>
-        </div>
+        </motion.div>
 
-        <RichTextEditor
-          label="Content"
-          value={formik.values.content}
-          onChange={(value: string) => formik.setFieldValue("content", value)}
-          isError={!!formik.errors.content}
-        />
-
-        {selectedImage && (
-          <>
-            <div className="relative h-[150px] w-[200px]">
-              <Image
-                src={selectedImage}
-                alt="Thumbnail"
-                className="object-cover"
-                fill
-              />
-            </div>
-            <Button
-              type="button"
-              variant="destructive"
-              onClick={removeThumbnail}
-            >
-              Remove
-            </Button>
-          </>
-        )}
-
-        <div className="flex flex-col space-y-1.5">
-          <Label>Thumbnail</Label>
-          <Input
-            ref={thumbnailRef}
-            type="file"
-            accept="image/*"
-            onChange={onChangeThumbnail}
+        {/* Content */}
+        <motion.div
+          className="grid w-full items-center gap-4"
+          whileHover={{ scale: 1.02 }}
+          transition={{ duration: 0.3 }}
+        >
+          <RichTextEditor
+            label="Content"
+            value={formik.values.content}
+            onChange={(value: string) => formik.setFieldValue("content", value)}
+            isError={!!formik.errors.content}
           />
-        </div>
-        <div></div>
+          {formik.touched.content && formik.errors.content && (
+            <motion.p
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="text-xs text-red-500"
+            >
+              {formik.errors.content}
+            </motion.p>
+          )}
+        </motion.div>
 
-        <div className="flex justify-end">
-          <Button type="submit" className="my-10" disabled={isPending}>
-            {isPending ? "Loading" : "Submit"}
+        {/* Thumbnail */}
+        <motion.div
+          className="grid w-full items-center gap-4"
+          initial="hidden"
+          animate="visible"
+          variants={{
+            hidden: { opacity: 0 },
+            visible: {
+              opacity: 1,
+              transition: {
+                staggerChildren: 0.2,
+              },
+            },
+          }}
+        >
+          {/* Image Preview */}
+          <AnimatePresence>
+            {selectedImage && (
+              <motion.div
+                className="relative h-40 w-60 overflow-hidden rounded-md shadow-lg"
+                initial={{ opacity: 0, scale: 0.8 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.8 }}
+                transition={{ duration: 0.3 }}
+              >
+                <Image
+                  src={selectedImage}
+                  alt="Thumbnail Preview"
+                  className="object-cover"
+                  fill
+                />
+                <motion.button
+                  type="button"
+                  onClick={removeThumbnail}
+                  className="absolute right-2 top-2 rounded-full bg-red-600 p-1 text-white transition-colors hover:bg-red-700"
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.9 }}
+                >
+                  &times;
+                </motion.button>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* File Input */}
+          <motion.div
+            className="flex flex-col space-y-1.5"
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 },
+            }}
+          >
+            <Label htmlFor="thumbnail" className="font-semibold text-gray-700">
+              Thumbnail
+            </Label>
+            <Input
+              ref={thumbnailRef}
+              type="file"
+              accept="image/*"
+              onChange={onChangeThumbnail}
+              className="rounded-md border border-gray-300 p-2 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+          </motion.div>
+        </motion.div>
+
+        {/* Submit Button */}
+        <motion.div
+          className="flex justify-end"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.5, duration: 0.5 }}
+        >
+          <Button
+            type="submit"
+            className="rounded-md bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-2 text-white transition-all duration-300 hover:from-blue-700 hover:to-purple-700 disabled:opacity-50"
+            disabled={isPending}
+          >
+            {isPending ? "Submitting..." : "Submit"}
           </Button>
-        </div>
+        </motion.div>
       </form>
-    </main>
+    </motion.main>
   );
 };
 
