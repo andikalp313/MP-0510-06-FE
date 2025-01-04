@@ -16,7 +16,7 @@ interface Event {
   price: number
 }
 
-export default function EventManagement() {
+export default function EventPage() {
   const [events, setEvents] = useState<Event[]>([
     { id: 1, name: 'Summer Music Festival', date: '2023-07-15', tickets: 500, price: 50 },
     { id: 2, name: 'Tech Conference 2023', date: '2023-09-22', tickets: 300, price: 100 },

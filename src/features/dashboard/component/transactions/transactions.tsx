@@ -16,7 +16,7 @@ interface Transaction {
   paymentProof: string
 }
 
-export default function TransactionManagement() {
+export default function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([
     { id: 1, event: 'Summer Music Festival', customer: 'John Doe', amount: 100, status: 'Pending', tickets: 2, paymentProof: '/payment-proof-1.jpg' },
     { id: 2, event: 'Tech Conference 2023', customer: 'Jane Smith', amount: 200, status: 'Approved', tickets: 1, paymentProof: '/payment-proof-2.jpg' },

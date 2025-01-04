@@ -38,7 +38,7 @@ const dailyData = [
   { day: '7', events: 2, revenue: 10000, attendees: 400 },
 ]
 
-export default function Statistics() {
+export default function OverviewPage() {
   const [timeFrame, setTimeFrame] = useState('yearly')
 
   const data = {

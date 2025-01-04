@@ -14,9 +14,10 @@ import { logoutAction } from "@/redux/slices/userslice";
 import { Menu } from "lucide-react";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 const Navbar = () => {
+  const pathName = usePathname();
   const router = useRouter();
   // const { data } = useSession();
   // const user = data?.user;
@@ -28,6 +29,16 @@ const Navbar = () => {
     dispatch(logoutAction());
     router.push("/login");
   };
+  const hideNavbarRoutes = [
+    "/dashboard",
+    "/dashboard/events",
+    "/dashboard/transactions",
+    "/dashboard/attendees",
+    "/dashboard/profile",
+  ];
+  if (hideNavbarRoutes.includes(pathName)) {
+    return null;
+  }
 
   return (
     <nav className="sticky top-0 z-30 bg-white opacity-100">

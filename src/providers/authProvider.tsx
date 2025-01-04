@@ -11,15 +11,15 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const data = localStorage.getItem("blog-storage");
-    if (data) {
-      dispatch(loginAction(JSON.parse(data)));
+    const storeData = localStorage.getItem("auth-storage");
+    if (storeData) {
+      dispatch(loginAction(JSON.parse(storeData)));
     }
 
     setTimeout(() => {
       setIsLoading(false);
     }, 1000);
-  }, []);
+  }, [dispatch]);
 
   if (isloading) {
     return <LoadingScreen />;

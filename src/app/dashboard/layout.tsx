@@ -1,21 +1,22 @@
-import { Inter } from 'next/font/google'
+import { Sidebar } from "@/features/dashboard/component/sideBar"
+import { Navbar } from "@/features/dashboard/component/topBar"
 
-const inter = Inter({ subsets: ['latin'] })
 
-export const metadata = {
-  title: 'Event Management Dashboard',
-  description: 'Manage your events, transactions, and attendees',
-}
-
-export default function RootLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <div className="flex h-screen overflow-hidden">
+      <Sidebar  />
+      <div className="flex flex-col flex-1 overflow-hidden">
+        <Navbar />
+        <main className="flex-1 overflow-y-auto bg-gray-100 p-4">
+          {children}
+        </main>
+      </div>
+    </div>
   )
 }
 
