@@ -2,14 +2,14 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import type { RootState } from "../store";
 
 interface UserState {
-  id: number;
+  id: number | null;
   name: string;
   email: string;
   token: string;
 }
 
 const initialState: UserState = {
-  id: 0,
+  id: null,
   name: "",
   email: "",
   token: "",
@@ -26,10 +26,10 @@ export const userSlice = createSlice({
       state.token = action.payload.token;
     },
     logoutAction: (state) => {
-      state.id = 0;
+      state.id = null;
       state.name = "";
       state.email = "";
-      state.email = "";
+      state.token = "";
     },
   },
 });
