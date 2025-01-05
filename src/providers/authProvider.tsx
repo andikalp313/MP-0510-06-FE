@@ -11,7 +11,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isloading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const storeData = localStorage.getItem("auth-storage");
+    const storeData = localStorage.getItem("exploretix-storage");
     if (storeData) {
       dispatch(loginAction(JSON.parse(storeData)));
     }
