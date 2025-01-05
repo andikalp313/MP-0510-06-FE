@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
 import { TransactionDetailModal } from './transactionDetailModal'
+import RoleGuard from '@/hoc/roleGuard'
 
 interface Transaction {
   id: number
@@ -16,7 +17,7 @@ interface Transaction {
   paymentProof: string
 }
 
-export default function TransactionsPage() {
+ function TransactionsPage() {
   const [transactions, setTransactions] = useState<Transaction[]>([
     { id: 1, event: 'Summer Music Festival', customer: 'John Doe', amount: 100, status: 'Pending', tickets: 2, paymentProof: '/payment-proof-1.jpg' },
     { id: 2, event: 'Tech Conference 2023', customer: 'Jane Smith', amount: 200, status: 'Approved', tickets: 1, paymentProof: '/payment-proof-2.jpg' },
@@ -74,7 +75,7 @@ export default function TransactionsPage() {
                   <Button variant="outline" size="sm" className="mr-2" onClick={() => setSelectedTransaction(transaction)}>
                     View Details
                   </Button>
-                  {transaction.status === 'Pending' && (
+                  {/* {transaction.status === 'Pending' && (
                     <>
                       <Button variant="outline" size="sm" className="mr-2" onClick={() => handleApprove(transaction.id)}>
                         Approve
@@ -83,7 +84,7 @@ export default function TransactionsPage() {
                         Reject
                       </Button>
                     </>
-                  )}
+                  )} */}
                 </TableCell>
               </TableRow>
             ))}
@@ -107,3 +108,5 @@ export default function TransactionsPage() {
     </Card>
   )
 }
+
+export default RoleGuard (TransactionsPage)

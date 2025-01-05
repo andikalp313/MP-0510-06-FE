@@ -20,6 +20,7 @@ import useGetEventsByUser from "@/hooks/api/event/useGetEventsByUser";
 import useCreateVoucher from "@/hooks/api/voucher/useCreateVoucher";
 import { createVoucherSchema } from "./schema";
 import { Input } from "@/components/ui/input";
+import RoleGuard from "@/hoc/roleGuard";
 
 const CreateVoucherPage = () => {
   const {
@@ -331,4 +332,4 @@ const CreateVoucherPage = () => {
   );
 };
 
-export default CreateVoucherPage;
+export default RoleGuard (CreateVoucherPage);

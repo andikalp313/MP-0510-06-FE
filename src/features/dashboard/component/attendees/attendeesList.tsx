@@ -16,8 +16,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import RoleGuard from "@/hoc/roleGuard";
 
-export default function AttendeesPage() {
+ function AttendeesPage() {
   const [attendees, setAttendees] = useState([
     {
       id: 1,
@@ -79,3 +80,5 @@ export default function AttendeesPage() {
     </div>
   );
 }
+
+export default RoleGuard (AttendeesPage)

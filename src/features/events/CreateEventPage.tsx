@@ -12,6 +12,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import useCreateEvent from "@/hooks/api/event/useCreateEvent";
 import { CreateEventSchema } from "./components/schema";
+import RoleGuard from "@/hoc/roleGuard";
 
 enum EventCategory {
   TECHNOLOGY = "TECHNOLOGY",
@@ -694,4 +695,4 @@ const CreateEventPage = () => {
   );
 };
 
-export default CreateEventPage;
+export default RoleGuard (CreateEventPage);
