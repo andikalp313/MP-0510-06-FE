@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { formatRupiah } from "@/utils/formatRupiah";
 
 interface EventCardProps {
   event: Event;
@@ -55,25 +56,33 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
                 {format(new Date(event.startDate), "dd MMM yyyy")}
               </Badge>
             </div>
+            {/* Tambahkan overlay gradient untuk teks yang lebih jelas */}
+            <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black via-transparent to-transparent p-4">
+              <h2 className="text-lg font-semibold text-white">
+                {event.title}
+              </h2>
+            </div>
           </CardHeader>
-          <CardContent className="p-6">
-            <h2 className="mb-2 line-clamp-2 text-xl font-semibold text-sky-700">
-              {event.title}
-            </h2>
-            <p className="mb-4 line-clamp-3 text-gray-600">
+          <CardContent className="flex flex-col p-6">
+            <p className="mb-2 line-clamp-2 text-gray-600">
               {event.description}
             </p>
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              whileHover={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
-              className="mt-auto flex items-center justify-between"
+            <p className="mb-4 text-gray-600">
+              <span className="font-medium text-sky-700">Location:</span>{" "}
+              {event.location}
+            </p>
+            <p className="mb-4 text-gray-600">
+              <span className="font-medium text-sky-700">From:</span>{" "}
+              {formatRupiah(Number(event.priceReguler) ?? 0)}
+            </p>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="mt-auto inline-flex items-center justify-center rounded-md bg-sky-600 px-4 py-2 text-white transition-colors duration-300 hover:bg-sky-700"
             >
-              <span className="text-sm font-medium text-sky-600">
-                Selengkapnya
-              </span>
+              Learn More
               <svg
-                className="h-5 w-5 transform text-sky-600 transition-transform duration-300 hover:translate-x-1"
+                className="ml-2 h-5 w-5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -86,7 +95,7 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
                   d="M9 5l7 7-7 7"
                 />
               </svg>
-            </motion.div>
+            </motion.button>
           </CardContent>
         </Card>
       </motion.a>
