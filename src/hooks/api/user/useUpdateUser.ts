@@ -23,8 +23,7 @@ const useUpdateUser = () => {
       payload: UpdateUserPayload;
     }) => {
       const updateUserForm = new FormData();
-      if (payload.name)
-        updateUserForm.append("name", payload.name);
+      if (payload.name) updateUserForm.append("name", payload.name);
       if (payload.email) updateUserForm.append("email", payload.email);
       if (payload.address) updateUserForm.append("address", payload.address);
       if (payload.profilePicture)

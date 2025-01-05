@@ -3,12 +3,13 @@
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState, ChangeEvent, FormEvent } from "react";
 import useGetTransaction from "@/hooks/api/transaction/useGetTransaction";
-import useUploadPaymentProof from "@/hooks/api/transaction/usepaymentProof"; // Pastikan pathnya benar
+import useUploadPaymentProof from "@/hooks/api/transaction/usePaymentProof"; // Pastikan pathnya benar
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "react-toastify";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Label } from "@radix-ui/react-label";
+import { formatRupiah } from "@/utils/formatRupiah";
 
 const TransactionDetail: React.FC = () => {
   const router = useRouter();
@@ -67,15 +68,17 @@ const TransactionDetail: React.FC = () => {
         <div className="mt-4 space-y-2 text-gray-700">
           <p>
             Silakan transfer sejumlah{" "}
-            <strong className="text-sky-600">Rp {data.totalPrice}</strong> ke
-            rekening berikut:
+            <strong className="text-sky-600">
+              {formatRupiah(Number(data.totalPrice) ?? 0)}
+            </strong>{" "}
+            ke rekening berikut:
           </p>
           <ul className="list-inside list-disc">
             <li>
               <strong>Bank:</strong> BRI
             </li>
             <li>
-              <strong>Nomor Rekening:</strong> 6907 0101 7166 536
+              <strong>Nomor Rekening:</strong> 6907
             </li>
             <li>
               <strong>Atas Nama:</strong> Andika Luhur Pambudi
@@ -195,8 +198,8 @@ const TransactionDetail: React.FC = () => {
               {data.quantity}
             </p>
             <p>
-              <strong className="text-sky-600">Total Price:</strong> Rp{" "}
-              {data.totalPrice}
+              <strong className="text-sky-600">Total Price:</strong>{" "}
+              {formatRupiah(Number(data.totalPrice) ?? 0)}
             </p>
             <p>
               <strong className="text-sky-600">Status:</strong>{" "}

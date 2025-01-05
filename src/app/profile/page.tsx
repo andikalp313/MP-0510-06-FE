@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import UserProfile from '@/features/profile'
+import UserProfile from "@/features/profile";
 
 const profile = () => {
   return (
     <div>
       <UserProfile />
     </div>
-  )
-}
+  );
+};
 
-export default profile
+export default profile;

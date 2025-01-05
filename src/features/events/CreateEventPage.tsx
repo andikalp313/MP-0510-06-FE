@@ -14,13 +14,13 @@ import useCreateEvent from "@/hooks/api/event/useCreateEvent";
 import { CreateEventSchema } from "./components/schema";
 
 enum EventCategory {
-  TECHNOLOGY = "Technology",
-  BUSINESS = "Business",
-  EDUCATION = "Education",
-  ENTERTAINMENT = "Entertainment",
-  SPORTS = "Sports",
-  HEALTH = "Health",
-  ART = "Art",
+  TECHNOLOGY = "TECHNOLOGY",
+  BUSINESS = "BUSINESS",
+  EDUCATION = "EDUCATION",
+  ENTERTAINMENT = "ENTERTAINMENT",
+  SPORTS = "SPORTS",
+  HEALTH = "HEALTH",
+  ART = "ART",
 }
 
 const CreateEventPage = () => {
@@ -346,7 +346,7 @@ const CreateEventPage = () => {
             },
           }}
         >
-          {/* Start Date */}
+          {/* Start Date & Time */}
           <motion.div
             className="flex flex-col space-y-1.5"
             variants={{
@@ -355,11 +355,11 @@ const CreateEventPage = () => {
             }}
           >
             <Label htmlFor="startDate" className="font-semibold text-gray-700">
-              Start Date
+              Start Date & Time
             </Label>
             <Input
               name="startDate"
-              type="date"
+              type="datetime-local"
               value={formik.values.startDate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -380,7 +380,7 @@ const CreateEventPage = () => {
             )}
           </motion.div>
 
-          {/* End Date */}
+          {/* End Date & Time */}
           <motion.div
             className="flex flex-col space-y-1.5"
             variants={{
@@ -389,11 +389,11 @@ const CreateEventPage = () => {
             }}
           >
             <Label htmlFor="endDate" className="font-semibold text-gray-700">
-              End Date
+              End Date & Time
             </Label>
             <Input
               name="endDate"
-              type="date"
+              type="datetime-local"
               value={formik.values.endDate}
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}

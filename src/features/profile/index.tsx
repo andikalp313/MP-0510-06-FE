@@ -24,11 +24,9 @@ const UserProfile = () => {
             <TabsTrigger value="password">password</TabsTrigger>
           </TabsList>
         </div>
-        <TabsContent value="profile">
-              {/* <UserProfilePage />  */}
-        </TabsContent>
+        <TabsContent value="profile">{/* <UserProfilePage />  */}</TabsContent>
         <TabsContent value="password">
-              {/* <UpdatePasswordForm />    */}
+          {/* <UpdatePasswordForm />    */}
         </TabsContent>
       </Tabs>
     </div>

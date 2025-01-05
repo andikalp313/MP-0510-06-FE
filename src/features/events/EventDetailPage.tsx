@@ -12,6 +12,7 @@ import {
   Trash2,
   Wallet,
   ArrowDownFromLine,
+  ClockIcon,
 } from "lucide-react";
 import Image from "next/image";
 import { FC, useState } from "react";
@@ -157,17 +158,49 @@ const EventDetailPage: FC<EventDetailPageProps> = ({ eventId }) => {
               >
                 <div>
                   {/* Detail Event */}
-                  <div className="mb-4">
-                    <div className="mb-2 flex items-center text-base text-sky-700 sm:text-lg">
-                      <CalendarIcon className="mr-3 h-5 w-5 text-sky-500" />
-                      <span>
-                        {format(new Date(event.startDate), "dd MMM yyyy")} -{" "}
-                        {format(new Date(event.endDate), "dd MMM yyyy")}
-                      </span>
-                    </div>
-                    <div className="flex items-center text-base text-sky-700 sm:text-lg">
-                      <MapPinIcon className="mr-3 h-5 w-5 text-sky-500" />
-                      <span>{event.location || "Location not specified"}</span>
+                  <div className="mb-4 space-y-4">
+                    {/* Bagian Tanggal dan Waktu Mulai */}
+                    <div className="mb-6 rounded-lg bg-white p-4 shadow-md">
+                      {/* Mulai */}
+                      <div className="mb-4 flex items-center text-base text-sky-700 sm:text-lg">
+                        <CalendarIcon
+                          className="mr-3 h-6 w-6 text-sky-500"
+                          aria-hidden="true"
+                        />
+                        <span className="font-medium">
+                          Mulai:{" "}
+                          {format(
+                            new Date(event.startDate),
+                            "dd MMM yyyy, HH:mm 'WIB'",
+                          )}
+                        </span>
+                      </div>
+
+                      {/* Selesai */}
+                      <div className="mb-4 flex items-center text-base text-sky-700 sm:text-lg">
+                        <CalendarIcon
+                          className="mr-3 h-6 w-6 text-sky-500"
+                          aria-hidden="true"
+                        />
+                        <span className="font-medium">
+                          Selesai:{" "}
+                          {format(
+                            new Date(event.endDate),
+                            "dd MMM yyyy, HH:mm 'WIB'",
+                          )}
+                        </span>
+                      </div>
+
+                      {/* Lokasi */}
+                      <div className="flex items-center text-base text-sky-700 sm:text-lg">
+                        <MapPinIcon
+                          className="mr-3 h-6 w-6 text-sky-500"
+                          aria-hidden="true"
+                        />
+                        <span className="font-medium">
+                          Lokasi: {event.location || "Lokasi tidak ditentukan"}
+                        </span>
+                      </div>
                     </div>
                   </div>
 
