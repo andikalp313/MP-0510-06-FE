@@ -1,6 +1,7 @@
 "use client";
 
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AuthGuard from "@/hoc/authGuard";
 import { useState } from "react";
 
 const UserProfile = () => {
@@ -33,4 +34,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default AuthGuard (UserProfile);

@@ -25,7 +25,7 @@ const Navbar = () => {
   const user = useAppSelector((state) => state.user);
 
   const logout = () => {
-    localStorage.removeItem("blog-storage");
+    localStorage.removeItem("exploretix-storage");
     dispatch(logoutAction());
     router.push("/login");
   };

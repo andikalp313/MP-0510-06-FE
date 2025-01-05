@@ -1,57 +1,79 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart'
-import { Line, LineChart, Bar, BarChart, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts'
+import { useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  Line,
+  LineChart,
+  Bar,
+  BarChart,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from "recharts";
+import RoleGuard from "@/hoc/roleGuard";
 
 const yearlyData = [
-  { year: '2020', events: 24, revenue: 120000, attendees: 4800 },
-  { year: '2021', events: 18, revenue: 90000, attendees: 3600 },
-  { year: '2022', events: 36, revenue: 180000, attendees: 7200 },
-  { year: '2023', events: 48, revenue: 240000, attendees: 9600 },
-]
+  { year: "2020", events: 24, revenue: 120000, attendees: 4800 },
+  { year: "2021", events: 18, revenue: 90000, attendees: 3600 },
+  { year: "2022", events: 36, revenue: 180000, attendees: 7200 },
+  { year: "2023", events: 48, revenue: 240000, attendees: 9600 },
+];
 
 const monthlyData = [
-  { month: 'Jan', events: 4, revenue: 20000, attendees: 800 },
-  { month: 'Feb', events: 3, revenue: 15000, attendees: 600 },
-  { month: 'Mar', events: 5, revenue: 25000, attendees: 1000 },
-  { month: 'Apr', events: 4, revenue: 20000, attendees: 800 },
-  { month: 'May', events: 6, revenue: 30000, attendees: 1200 },
-  { month: 'Jun', events: 5, revenue: 25000, attendees: 1000 },
-  { month: 'Jul', events: 7, revenue: 35000, attendees: 1400 },
-  { month: 'Aug', events: 6, revenue: 30000, attendees: 1200 },
-  { month: 'Sep', events: 4, revenue: 20000, attendees: 800 },
-  { month: 'Oct', events: 5, revenue: 25000, attendees: 1000 },
-  { month: 'Nov', events: 3, revenue: 15000, attendees: 600 },
-  { month: 'Dec', events: 4, revenue: 20000, attendees: 800 },
-]
+  { month: "Jan", events: 4, revenue: 20000, attendees: 800 },
+  { month: "Feb", events: 3, revenue: 15000, attendees: 600 },
+  { month: "Mar", events: 5, revenue: 25000, attendees: 1000 },
+  { month: "Apr", events: 4, revenue: 20000, attendees: 800 },
+  { month: "May", events: 6, revenue: 30000, attendees: 1200 },
+  { month: "Jun", events: 5, revenue: 25000, attendees: 1000 },
+  { month: "Jul", events: 7, revenue: 35000, attendees: 1400 },
+  { month: "Aug", events: 6, revenue: 30000, attendees: 1200 },
+  { month: "Sep", events: 4, revenue: 20000, attendees: 800 },
+  { month: "Oct", events: 5, revenue: 25000, attendees: 1000 },
+  { month: "Nov", events: 3, revenue: 15000, attendees: 600 },
+  { month: "Dec", events: 4, revenue: 20000, attendees: 800 },
+];
 
 const dailyData = [
-  { day: '1', events: 2, revenue: 10000, attendees: 400 },
-  { day: '2', events: 1, revenue: 5000, attendees: 200 },
-  { day: '3', events: 3, revenue: 15000, attendees: 600 },
-  { day: '4', events: 2, revenue: 10000, attendees: 400 },
-  { day: '5', events: 4, revenue: 20000, attendees: 800 },
-  { day: '6', events: 3, revenue: 15000, attendees: 600 },
-  { day: '7', events: 2, revenue: 10000, attendees: 400 },
-]
+  { day: "1", events: 2, revenue: 10000, attendees: 400 },
+  { day: "2", events: 1, revenue: 5000, attendees: 200 },
+  { day: "3", events: 3, revenue: 15000, attendees: 600 },
+  { day: "4", events: 2, revenue: 10000, attendees: 400 },
+  { day: "5", events: 4, revenue: 20000, attendees: 800 },
+  { day: "6", events: 3, revenue: 15000, attendees: 600 },
+  { day: "7", events: 2, revenue: 10000, attendees: 400 },
+];
 
-export default function OverviewPage() {
-  const [timeFrame, setTimeFrame] = useState('yearly')
+function OverviewPage() {
+  const [timeFrame, setTimeFrame] = useState("yearly");
 
   const data = {
     yearly: yearlyData,
     monthly: monthlyData,
     daily: dailyData,
-  }[timeFrame]
+  }[timeFrame];
 
   const xAxisKey = {
-    yearly: 'year',
-    monthly: 'month',
-    daily: 'day',
-  }[timeFrame]
+    yearly: "year",
+    monthly: "month",
+    daily: "day",
+  }[timeFrame];
 
   return (
     <div className="space-y-6">
@@ -61,7 +83,9 @@ export default function OverviewPage() {
             <CardTitle className="text-sm font-medium">Total Events</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{yearlyData[yearlyData.length - 1].events}</div>
+            <div className="text-2xl font-bold">
+              {yearlyData[yearlyData.length - 1].events}
+            </div>
             <p className="text-xs text-muted-foreground">+20% from last year</p>
           </CardContent>
         </Card>
@@ -70,16 +94,22 @@ export default function OverviewPage() {
             <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${yearlyData[yearlyData.length - 1].revenue.toLocaleString()}</div>
+            <div className="text-2xl font-bold">
+              ${yearlyData[yearlyData.length - 1].revenue.toLocaleString()}
+            </div>
             <p className="text-xs text-muted-foreground">+15% from last year</p>
           </CardContent>
         </Card>
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Total Attendees</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Total Attendees
+            </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{yearlyData[yearlyData.length - 1].attendees.toLocaleString()}</div>
+            <div className="text-2xl font-bold">
+              {yearlyData[yearlyData.length - 1].attendees.toLocaleString()}
+            </div>
             <p className="text-xs text-muted-foreground">+12% from last year</p>
           </CardContent>
         </Card>
@@ -88,10 +118,16 @@ export default function OverviewPage() {
       <Card>
         <CardHeader>
           <CardTitle>Event Statistics Over Time</CardTitle>
-          <CardDescription>View event data by year, month, or day</CardDescription>
+          <CardDescription>
+            View event data by year, month, or day
+          </CardDescription>
         </CardHeader>
         <CardContent>
-          <Tabs value={timeFrame} onValueChange={setTimeFrame} className="space-y-4">
+          <Tabs
+            value={timeFrame}
+            onValueChange={setTimeFrame}
+            className="space-y-4"
+          >
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="yearly">Yearly</TabsTrigger>
               <TabsTrigger value="monthly">Monthly</TabsTrigger>
@@ -118,27 +154,48 @@ export default function OverviewPage() {
                 <ResponsiveContainer width="100%" height="100%">
                   <LineChart data={data}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis 
+                    <XAxis
                       dataKey={xAxisKey}
                       tick={{ fontSize: 12 }}
                       tickFormatter={(value) => value.toString().slice(0, 3)}
                     />
-                    <YAxis 
+                    <YAxis
                       yAxisId="left"
                       tick={{ fontSize: 12 }}
                       tickFormatter={(value) => `${value}`}
                     />
-                    <YAxis 
-                      yAxisId="right" 
+                    <YAxis
+                      yAxisId="right"
                       orientation="right"
                       tick={{ fontSize: 12 }}
                       tickFormatter={(value) => `$${value / 1000}k`}
                     />
                     <ChartTooltip content={<ChartTooltipContent />} />
-                    <Legend wrapperStyle={{ fontSize: '12px' }} />
-                    <Line yAxisId="left" type="monotone" dataKey="events" stroke="var(--color-events)" strokeWidth={2} dot={false} />
-                    <Line yAxisId="right" type="monotone" dataKey="revenue" stroke="var(--color-revenue)" strokeWidth={2} dot={false} />
-                    <Line yAxisId="left" type="monotone" dataKey="attendees" stroke="var(--color-attendees)" strokeWidth={2} dot={false} />
+                    <Legend wrapperStyle={{ fontSize: "12px" }} />
+                    <Line
+                      yAxisId="left"
+                      type="monotone"
+                      dataKey="events"
+                      stroke="var(--color-events)"
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      yAxisId="right"
+                      type="monotone"
+                      dataKey="revenue"
+                      stroke="var(--color-revenue)"
+                      strokeWidth={2}
+                      dot={false}
+                    />
+                    <Line
+                      yAxisId="left"
+                      type="monotone"
+                      dataKey="attendees"
+                      stroke="var(--color-attendees)"
+                      strokeWidth={2}
+                      dot={false}
+                    />
                   </LineChart>
                 </ResponsiveContainer>
               </ChartContainer>
@@ -151,7 +208,9 @@ export default function OverviewPage() {
         <Card>
           <CardHeader>
             <CardTitle>Events by Time Period</CardTitle>
-            <CardDescription>Number of events held in each time period</CardDescription>
+            <CardDescription>
+              Number of events held in each time period
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer
@@ -166,14 +225,14 @@ export default function OverviewPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
+                  <XAxis
                     dataKey={xAxisKey}
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) => value.toString().slice(0, 3)}
                   />
                   <YAxis tick={{ fontSize: 12 }} />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Legend wrapperStyle={{ fontSize: '12px' }} />
+                  <Legend wrapperStyle={{ fontSize: "12px" }} />
                   <Bar dataKey="events" fill="var(--color-events)" />
                 </BarChart>
               </ResponsiveContainer>
@@ -184,7 +243,9 @@ export default function OverviewPage() {
         <Card>
           <CardHeader>
             <CardTitle>Revenue by Time Period</CardTitle>
-            <CardDescription>Revenue generated in each time period</CardDescription>
+            <CardDescription>
+              Revenue generated in each time period
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ChartContainer
@@ -199,17 +260,17 @@ export default function OverviewPage() {
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis 
+                  <XAxis
                     dataKey={xAxisKey}
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) => value.toString().slice(0, 3)}
                   />
-                  <YAxis 
+                  <YAxis
                     tick={{ fontSize: 12 }}
                     tickFormatter={(value) => `$${value / 1000}k`}
                   />
                   <ChartTooltip content={<ChartTooltipContent />} />
-                  <Legend wrapperStyle={{ fontSize: '12px' }} />
+                  <Legend wrapperStyle={{ fontSize: "12px" }} />
                   <Bar dataKey="revenue" fill="var(--color-revenue)" />
                 </BarChart>
               </ResponsiveContainer>
@@ -218,6 +279,7 @@ export default function OverviewPage() {
         </Card>
       </div>
     </div>
-  )
+  );
 }
 
+export default RoleGuard(OverviewPage);
