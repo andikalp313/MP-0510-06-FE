@@ -194,6 +194,10 @@ const TransactionDetail: React.FC = () => {
               {data.event.title}
             </p>
             <p>
+              <strong className="text-sky-600">Ticket Type:</strong>{" "}
+              {data.ticketType}
+            </p>
+            <p>
               <strong className="text-sky-600">Quantity:</strong>{" "}
               {data.quantity}
             </p>
