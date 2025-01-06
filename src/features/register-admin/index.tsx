@@ -2,14 +2,15 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+
 import useRegisteror from "@/hooks/api/auth/useRegister";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { RegisterOrganizerSchema } from "./schema";
 import Link from "next/link";
 import useRegisterOrganizer from "@/hooks/api/auth/useRegisterOrganizer";
+import { Label } from "@/components/ui/label-ui";
+import { Input } from "@/components/ui/input-ui";
 
 const RegisterOrganizerPage = () => {
   const { mutateAsync: registerAdmin, isPending } = useRegisterOrganizer();
@@ -64,8 +65,11 @@ const RegisterOrganizerPage = () => {
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
                 />
-                {!!formik.touched.organizerName && !!formik.errors.organizerName ? (
-                  <p className="text-xs text-red-500">{formik.errors.organizerName}</p>
+                {!!formik.touched.organizerName &&
+                !!formik.errors.organizerName ? (
+                  <p className="text-xs text-red-500">
+                    {formik.errors.organizerName}
+                  </p>
                 ) : null}
               </div>
             </div>
@@ -97,7 +101,9 @@ const RegisterOrganizerPage = () => {
                   onBlur={formik.handleBlur}
                 />
                 {!!formik.touched.name && !!formik.errors.address ? (
-                  <p className="text-xs text-red-500">{formik.errors.address}</p>
+                  <p className="text-xs text-red-500">
+                    {formik.errors.address}
+                  </p>
                 ) : null}
               </div>
             </div>
@@ -110,7 +116,7 @@ const RegisterOrganizerPage = () => {
                   onChange={(e) => {
                     const selectedRole = e.target.value;
                     setRole(selectedRole);
-                    formik.setFieldValue("role", selectedRole); 
+                    formik.setFieldValue("role", selectedRole);
                   }}
                   onBlur={formik.handleBlur}
                   className="rounded border p-2"

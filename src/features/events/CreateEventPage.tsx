@@ -13,6 +13,7 @@ import { Textarea } from "@/components/ui/textarea";
 import useCreateEvent from "@/hooks/api/event/useCreateEvent";
 import { CreateEventSchema } from "./components/schema";
 import RoleGuard from "@/hoc/roleGuard";
+import { FiEdit3 } from "react-icons/fi";
 
 enum EventCategory {
   TECHNOLOGY = "TECHNOLOGY",
@@ -23,6 +24,26 @@ enum EventCategory {
   HEALTH = "HEALTH",
   ART = "ART",
 }
+
+// Variants untuk container (membungkus seluruh form)
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      // jeda sebelum item pertama muncul
+      delayChildren: 0.2,
+      // jeda antar item
+      staggerChildren: 0.15,
+    },
+  },
+};
+
+// Variants untuk item tunggal (setiap motion.div di dalam form)
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
 
 const CreateEventPage = () => {
   const { mutateAsync: createEvent, isPending } = useCreateEvent();
@@ -77,6 +98,7 @@ const CreateEventPage = () => {
   return (
     <motion.main
       className="container mx-auto max-w-5xl px-4 py-8"
+      // Animasi masuk untuk kontainer utama
       initial={{ opacity: 0, y: 50 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
@@ -89,50 +111,76 @@ const CreateEventPage = () => {
       >
         Create New Event
       </motion.h1>
-      <form
+
+      {/* Jadikan form ini container untuk stagger children */}
+      <motion.form
         className="space-y-6 rounded-lg bg-white p-8 shadow-xl"
         onSubmit={formik.handleSubmit}
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
       >
-        {/* Title */}
+        {/* TITLE */}
         <motion.div
-          className="grid w-full items-center gap-4"
-          whileHover={{ scale: 1.02 }}
+          className="relative w-full max-w-md overflow-hidden rounded-3xl bg-gradient-to-br from-sky-400 to-sky-500 p-8 shadow-2xl transition-all duration-500 hover:from-sky-500 hover:to-sky-600"
+          whileHover={{ scale: 1.05 }}
           transition={{ duration: 0.3 }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
-          <div className="flex flex-col space-y-1.5">
-            <Label htmlFor="title" className="font-semibold text-gray-700">
-              Title
-            </Label>
-            <Input
-              name="title"
-              type="text"
-              placeholder="Enter event title"
-              value={formik.values.title}
-              onChange={formik.handleChange}
-              onBlur={formik.handleBlur}
-              className={`border ${
-                formik.touched.title && formik.errors.title
-                  ? "border-red-500"
-                  : "border-gray-300"
-              } rounded-md transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500`}
-            />
-            {formik.touched.title && formik.errors.title && (
-              <motion.p
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-xs text-red-500"
-              >
-                {formik.errors.title}
-              </motion.p>
-            )}
+          {/* Decorative Elements */}
+          <div className="absolute -left-10 -top-10 h-32 w-32 animate-pulse rounded-full bg-white opacity-20 blur-3xl"></div>
+          <div className="absolute -bottom-10 -right-10 h-32 w-32 animate-pulse rounded-full bg-white opacity-20 blur-3xl"></div>
+
+          <div className="flex flex-col space-y-6">
+            {/* Header with Icon */}
+            <div className="flex items-center space-x-3">
+              <FiEdit3 className="animate-bounce text-2xl text-white" />
+              <h2 className="text-2xl font-bold text-white">Create Event</h2>
+            </div>
+
+            {/* Form Fields */}
+            <div className="flex flex-col space-y-4">
+              <label htmlFor="title" className="font-medium text-white">
+                Title
+              </label>
+              <div className="relative">
+                <Input
+                  name="title"
+                  type="text"
+                  placeholder="Enter event title"
+                  value={formik.values.title}
+                  onChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  className={`w-full border bg-white bg-opacity-80 px-4 py-3 ${
+                    formik.touched.title && formik.errors.title
+                      ? "border-red-400"
+                      : "border-sky-300"
+                  } rounded-lg shadow-inner transition duration-300 focus:outline-none focus:ring-2 focus:ring-sky-300`}
+                />
+                {/* Icon inside input */}
+                <FiEdit3 className="absolute right-3 top-1/2 -translate-y-1/2 transform text-sky-400" />
+              </div>
+              {formik.touched.title && formik.errors.title && (
+                <motion.p
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="mt-1 text-sm text-red-300"
+                >
+                  {formik.errors.title}
+                </motion.p>
+              )}
+            </div>
           </div>
         </motion.div>
 
-        {/* Category */}
+        {/* CATEGORY */}
         <motion.div
           className="grid w-full items-center gap-4"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           <div className="flex flex-col space-y-1.5">
             <Label
@@ -170,11 +218,13 @@ const CreateEventPage = () => {
           </div>
         </motion.div>
 
-        {/* Description */}
+        {/* DESCRIPTION */}
         <motion.div
           className="grid w-full items-center gap-4"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           <div className="flex flex-col space-y-1.5">
             <Label
@@ -208,28 +258,18 @@ const CreateEventPage = () => {
           </div>
         </motion.div>
 
-        {/* Pricing */}
+        {/* PRICING */}
         <motion.div
+          // Hilangkan initial & animate di sini, karena sudah diatur oleh container
           className="grid grid-cols-1 gap-4 md:grid-cols-3"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
-          }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           {/* Price Reguler */}
           <motion.div
             className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
+            // item child bisa saja pakai itemVariants lagi,
+            // tapi kita cukup satu level untuk contoh ini
           >
             <Label
               htmlFor="priceReguler"
@@ -262,13 +302,7 @@ const CreateEventPage = () => {
           </motion.div>
 
           {/* Price VIP */}
-          <motion.div
-            className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
+          <motion.div className="flex flex-col space-y-1.5">
             <Label htmlFor="priceVip" className="font-semibold text-gray-700">
               Price VIP
             </Label>
@@ -297,13 +331,7 @@ const CreateEventPage = () => {
           </motion.div>
 
           {/* Price VVIP */}
-          <motion.div
-            className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
+          <motion.div className="flex flex-col space-y-1.5">
             <Label htmlFor="priceVvip" className="font-semibold text-gray-700">
               Price VVIP
             </Label>
@@ -332,29 +360,14 @@ const CreateEventPage = () => {
           </motion.div>
         </motion.div>
 
-        {/* Dates */}
+        {/* DATES */}
         <motion.div
           className="grid grid-cols-1 gap-4 md:grid-cols-2"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
-          }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           {/* Start Date & Time */}
-          <motion.div
-            className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
+          <motion.div className="flex flex-col space-y-1.5">
             <Label htmlFor="startDate" className="font-semibold text-gray-700">
               Start Date & Time
             </Label>
@@ -382,13 +395,7 @@ const CreateEventPage = () => {
           </motion.div>
 
           {/* End Date & Time */}
-          <motion.div
-            className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
+          <motion.div className="flex flex-col space-y-1.5">
             <Label htmlFor="endDate" className="font-semibold text-gray-700">
               End Date & Time
             </Label>
@@ -416,29 +423,14 @@ const CreateEventPage = () => {
           </motion.div>
         </motion.div>
 
-        {/* Available Seats */}
+        {/* AVAILABLE SEATS */}
         <motion.div
           className="grid grid-cols-1 gap-4 md:grid-cols-3"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
-          }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           {/* Seats Reguler */}
-          <motion.div
-            className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
+          <motion.div className="flex flex-col space-y-1.5">
             <Label
               htmlFor="avaliableSeatsReguler"
               className="font-semibold text-gray-700"
@@ -472,13 +464,7 @@ const CreateEventPage = () => {
           </motion.div>
 
           {/* Seats VIP */}
-          <motion.div
-            className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
+          <motion.div className="flex flex-col space-y-1.5">
             <Label
               htmlFor="avaliableSeatsVip"
               className="font-semibold text-gray-700"
@@ -512,13 +498,7 @@ const CreateEventPage = () => {
           </motion.div>
 
           {/* Seats VVIP */}
-          <motion.div
-            className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
-          >
+          <motion.div className="flex flex-col space-y-1.5">
             <Label
               htmlFor="avaliableSeatsVvip"
               className="font-semibold text-gray-700"
@@ -552,11 +532,13 @@ const CreateEventPage = () => {
           </motion.div>
         </motion.div>
 
-        {/* Location */}
+        {/* LOCATION */}
         <motion.div
           className="grid w-full items-center gap-4"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           <div className="flex flex-col space-y-1.5">
             <Label htmlFor="location" className="font-semibold text-gray-700">
@@ -587,11 +569,13 @@ const CreateEventPage = () => {
           </div>
         </motion.div>
 
-        {/* Content */}
+        {/* CONTENT (RichTextEditor) */}
         <motion.div
           className="grid w-full items-center gap-4"
           whileHover={{ scale: 1.02 }}
           transition={{ duration: 0.3 }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           <RichTextEditor
             label="Content"
@@ -610,20 +594,11 @@ const CreateEventPage = () => {
           )}
         </motion.div>
 
-        {/* Thumbnail */}
+        {/* THUMBNAIL */}
         <motion.div
           className="grid w-full items-center gap-4"
-          initial="hidden"
-          animate="visible"
-          variants={{
-            hidden: { opacity: 0 },
-            visible: {
-              opacity: 1,
-              transition: {
-                staggerChildren: 0.2,
-              },
-            },
-          }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           {/* Image Preview */}
           <AnimatePresence>
@@ -657,10 +632,7 @@ const CreateEventPage = () => {
           {/* File Input */}
           <motion.div
             className="flex flex-col space-y-1.5"
-            variants={{
-              hidden: { opacity: 0, y: 20 },
-              visible: { opacity: 1, y: 0 },
-            }}
+            // item child (opsional)
           >
             <Label htmlFor="thumbnail" className="font-semibold text-gray-700">
               Thumbnail
@@ -675,12 +647,11 @@ const CreateEventPage = () => {
           </motion.div>
         </motion.div>
 
-        {/* Submit Button */}
+        {/* SUBMIT BUTTON */}
         <motion.div
           className="flex justify-end"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5, duration: 0.5 }}
+          // tambahkan variants item
+          variants={itemVariants}
         >
           <Button
             type="submit"
@@ -690,9 +661,9 @@ const CreateEventPage = () => {
             {isPending ? "Submitting..." : "Submit"}
           </Button>
         </motion.div>
-      </form>
+      </motion.form>
     </motion.main>
   );
 };
 
-export default RoleGuard (CreateEventPage);
+export default RoleGuard(CreateEventPage);
