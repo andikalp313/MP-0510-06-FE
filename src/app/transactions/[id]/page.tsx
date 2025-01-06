@@ -10,7 +10,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { Label } from "@radix-ui/react-label";
 import { formatRupiah } from "@/utils/formatRupiah";
-import useUploadPaymentProof from "@/hooks/api/transaction/useUploadPaymentProof";
+import useUploadPaymentProof from "@/hooks/api/payment-proof/useUploadPaymentProof";
 
 const TransactionDetail: React.FC = () => {
   const router = useRouter();
