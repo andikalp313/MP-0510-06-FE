@@ -6,8 +6,8 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { logoutAction } from "@/redux/slices/userslice";
 import { useAppSelector } from "@/redux/hooks";
-import Image from "next/image";
 
+import Image from "next/image";
 // Komponen bawaan Anda
 import { ModeToggle } from "@/components/ModeToggle";
 import {
@@ -137,7 +137,6 @@ const Navbar = () => {
                   </HoveredLink>
                 </div>
               </MenuItem>
-
               {/* EXPLORE AI */}
               <MenuItem setActive={setActive} active={active} item="ExploreAI">
                 <div className="flex flex-col space-y-2 text-sm">
@@ -181,7 +180,6 @@ const Navbar = () => {
                   )}
                 </div>
               </MenuItem>
-
               {/* ABOUT */}
               <Link href="/about">
                 <MenuItem setActive={setActive} active={active} item="About">
@@ -206,7 +204,6 @@ const Navbar = () => {
               <DropdownMenuContent className="bg-white">
                 <DropdownMenuLabel>Menu</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-
                 {/* HOME */}
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>Home</DropdownMenuSubTrigger>
@@ -243,6 +240,7 @@ const Navbar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports</Link>
+
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports 2</Link>
@@ -320,6 +318,7 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
+
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
