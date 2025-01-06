@@ -14,6 +14,18 @@ const nextConfig = {
         protocol: "https",
         hostname: "res.cloudinary.com",
       },
+      {
+        protocol: "https",
+        hostname: "aceternity.com",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.aceternity.com",
+      },
+      {
+        protocol: "https",
+        hostname: "asset.cloudinary.com",
+      },
     ],
   },
 };
