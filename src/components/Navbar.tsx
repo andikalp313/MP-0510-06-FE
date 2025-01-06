@@ -6,6 +6,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { logoutAction } from "@/redux/slices/userslice";
 import { useAppSelector } from "@/redux/hooks";
+import Image from "next/image";
 
 // Komponen bawaan Anda
 import { ModeToggle } from "@/components/ModeToggle";
@@ -16,6 +17,9 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from "@/components/ui/dropdown-menu";
 import { Brain, Cloud, Menu as IconMenu, MessageSquare } from "lucide-react";
 
@@ -62,16 +66,23 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-xl font-bold transition-colors duration-300 ease-in-out hover:text-sky-600"
-          >
-            Explore<span className="text-sky-600">TiK</span>
+          <Link href="/" className="flex items-center">
+            {/* Logo */}
+            <Image
+              src="/Logo.png" // sesuaikan nama file
+              alt="Logo ExploreTiK"
+              width={70} // atur lebar logo
+              height={70} // atur tinggi logo
+              className="mr-2" // margin kanan untuk memberi jarak dengan teks (opsional)
+            />
+            {/* Teks tambahan (opsional) */}
+            {/* <span className="text-xl font-bold transition-colors duration-300 ease-in-out hover:text-sky-600">
+              Explore<span className="text-sky-600">TiK</span>
+            </span> */}
           </Link>
 
-          {/* Menu untuk layar menengah ke atas (md) */}
+          {/* Menu untuk layar menengah ke atas (desktop) */}
           <div className="hidden items-center gap-8 font-medium md:flex">
-            {/* Contoh penerapan Menu yang Anda inginkan */}
             <Menu setActive={setActive}>
               {/* HOME */}
               <MenuItem setActive={setActive} active={active} item="Home">
@@ -87,6 +98,8 @@ const Navbar = () => {
                   <HoveredLink href="/create-event">Create Event</HoveredLink>
                 </div>
               </MenuItem>
+
+              {/* TRENDING */}
               <MenuItem setActive={setActive} active={active} item="Trending">
                 <div className="grid grid-cols-2 gap-10 p-4 text-sm">
                   <ProductItem
@@ -124,6 +137,8 @@ const Navbar = () => {
                   </HoveredLink>
                 </div>
               </MenuItem>
+
+              {/* EXPLORE AI */}
               <MenuItem setActive={setActive} active={active} item="ExploreAI">
                 <div className="flex flex-col space-y-2 text-sm">
                   <HoveredLink href="https://gemini.google.com/app">
@@ -152,10 +167,7 @@ const Navbar = () => {
               {/* PROFILE */}
               <MenuItem setActive={setActive} active={active} item="Profile">
                 <div className="flex flex-col space-y-2 text-sm">
-                  {/* Jika belum login, tampilkan Sign In */}
                   {!user.id && <HoveredLink href="/login">Sign In</HoveredLink>}
-
-                  {/* Jika sudah login, tampilkan Profile & Logout */}
                   {!!user.id && (
                     <>
                       <HoveredLink href="/profile">Profile</HoveredLink>
@@ -170,6 +182,7 @@ const Navbar = () => {
                 </div>
               </MenuItem>
 
+              {/* ABOUT */}
               <Link href="/about">
                 <MenuItem setActive={setActive} active={active} item="About">
                   <div className="flex flex-col space-y-2 text-sm">
@@ -183,53 +196,130 @@ const Navbar = () => {
             </Menu>
           </div>
 
-          {/* Menu dropdown untuk layar kecil (mobile) */}
+          {/* MENU MOBILE */}
           <div className="flex items-center gap-2 md:hidden">
-            <ModeToggle />
             <DropdownMenu>
               <DropdownMenuTrigger>
                 <IconMenu />
               </DropdownMenuTrigger>
-              <DropdownMenuContent>
+              {/* Tambahkan className="bg-white" agar tidak transparan */}
+              <DropdownMenuContent className="bg-white">
                 <DropdownMenuLabel>Menu</DropdownMenuLabel>
                 <DropdownMenuSeparator />
 
                 {/* HOME */}
-                <DropdownMenuItem asChild>
-                  <Link href="/">Home</Link>
-                </DropdownMenuItem>
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Home</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    <DropdownMenuItem asChild>
+                      <Link href="/">Beranda</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
 
-                {/* EVENT */}
-                <DropdownMenuItem asChild>
-                  <Link href="/events">Event</Link>
-                </DropdownMenuItem>
+                {/* EVENTS */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Events</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    <DropdownMenuItem asChild>
+                      <Link href="/events">List Event</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/create-event">Create Event</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
 
-                {/* CREATE EVENT */}
-                <DropdownMenuItem onClick={() => router.push("/create-event")}>
-                  Create Event
-                </DropdownMenuItem>
+                {/* TRENDING */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Trending</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    {/* untuk mobile, cukup text link sederhana */}
+                    <DropdownMenuItem asChild>
+                      <Link href="/events">Technology</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/events">Nature</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/events">Sports</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/events">Sports 2</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
 
                 {/* VOUCHER */}
-                <DropdownMenuItem
-                  onClick={() => router.push("/create-voucher")}
-                >
-                  Create Voucher
-                </DropdownMenuItem>
-
-                {/* PROFILE & LOGIN/LOGOUT */}
-                {!user.id && (
-                  <DropdownMenuItem asChild>
-                    <Link href="/login">Sign in</Link>
-                  </DropdownMenuItem>
-                )}
-                {!!user.id && (
-                  <>
-                    <DropdownMenuItem onClick={() => router.push("/profile")}>
-                      Profile
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Voucher</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    <DropdownMenuItem
+                      onClick={() => router.push("/create-voucher")}
+                    >
+                      Create Voucher
                     </DropdownMenuItem>
-                    <DropdownMenuItem onClick={logout}>Logout</DropdownMenuItem>
-                  </>
-                )}
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+
+                {/* EXPLORE AI */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>ExploreAI</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    <DropdownMenuItem asChild>
+                      <Link href="https://gemini.google.com/app">Gemini</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="https://claude.ai/">Claude</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="https://chat.openai.com/">ChatGPT</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+
+                {/* PROFILE */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Profile</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    {!user.id && (
+                      <DropdownMenuItem asChild>
+                        <Link href="/login">Sign In</Link>
+                      </DropdownMenuItem>
+                    )}
+                    {!!user.id && (
+                      <>
+                        <DropdownMenuItem
+                          onClick={() => router.push("/profile")}
+                        >
+                          Profile
+                        </DropdownMenuItem>
+                        <DropdownMenuItem onClick={logout}>
+                          Logout
+                        </DropdownMenuItem>
+                      </>
+                    )}
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+
+                {/* ABOUT */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>About</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    <DropdownMenuItem asChild>
+                      <Link href="#journy">Journey</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="#services">Services</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="#ourteam">Team</Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="#contact">Contact</Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
