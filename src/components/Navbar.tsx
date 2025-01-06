@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 import { logoutAction } from "@/redux/slices/userslice";
 import { useAppSelector } from "@/redux/hooks";
 import Image from "next/image";
-
 // Komponen bawaan Anda
 import { ModeToggle } from "@/components/ModeToggle";
 import {
@@ -247,6 +246,7 @@ const Navbar = () => {
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports 2</Link>
                     </DropdownMenuItem>
+
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
 
@@ -311,6 +311,7 @@ const Navbar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="#services">Services</Link>
+
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="#ourteam">Team</Link>
@@ -320,6 +321,7 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
+
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
