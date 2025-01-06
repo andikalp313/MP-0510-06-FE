@@ -62,18 +62,18 @@ const Navbar = () => {
   }
 
   return (
-    <nav className="sticky top-0 z-30 bg-white opacity-100">
+    <nav className="sticky top-0 z-30 bg-transparent opacity-100">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
           <Link href="/" className="flex items-center">
             {/* Logo */}
             <Image
-              src="/Logo.png" // sesuaikan nama file
+              src="/Logo.png"
               alt="Logo ExploreTiK"
-              width={70} // atur lebar logo
-              height={70} // atur tinggi logo
-              className="mr-2" // margin kanan untuk memberi jarak dengan teks (opsional)
+              width={300}
+              height={300}
+              className="z-50 mr-2 h-auto w-[150px] object-contain"
             />
             {/* Teks tambahan (opsional) */}
             {/* <span className="text-xl font-bold transition-colors duration-300 ease-in-out hover:text-sky-600">
