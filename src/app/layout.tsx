@@ -9,6 +9,7 @@ import "./globals.css";
 import AuthProvider from "@/provider/AuthProvider";
 import StoreProvider from "@/provider/StoreProvider";
 
+
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
