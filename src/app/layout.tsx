@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import AuthProvider from "@/providers/authProvider";
+import AuthProvider from "@/providers/AuthProvider";
 import ReactQueryProvider from "@/providers/ReactQueryProvider";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
