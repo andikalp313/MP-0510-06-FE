@@ -2,7 +2,7 @@
 
 import { axiosInstance } from "@/lib/axios";
 import { useAppDispatch } from "@/redux/hooks";
-import { loginAction } from "@/redux/slices/userslice";
+import { loginAction } from "@/redux/userSlice";
 import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";

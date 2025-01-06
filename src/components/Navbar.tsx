@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { logoutAction } from "@/redux/slices/userslice";
+import { logoutAction } from "@/redux/userSlice";
 import { useAppSelector } from "@/redux/hooks";
 
 import Image from "next/image";
@@ -240,7 +240,6 @@ const Navbar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports</Link>
-
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports 2</Link>
@@ -318,7 +317,6 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
-
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
