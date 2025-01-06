@@ -8,8 +8,6 @@ import { logoutAction } from "@/redux/slices/userslice";
 import { useAppSelector } from "@/redux/hooks";
 
 import Image from "next/image";
-
-
 // Komponen bawaan Anda
 import { ModeToggle } from "@/components/ModeToggle";
 import {
@@ -68,7 +66,6 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
-
           <Link href="/" className="flex items-center">
             {/* Logo */}
             <Image
@@ -101,6 +98,7 @@ const Navbar = () => {
                   <HoveredLink href="/create-event">Create Event</HoveredLink>
                 </div>
               </MenuItem>
+
               {/* TRENDING */}
               <MenuItem setActive={setActive} active={active} item="Trending">
                 <div className="grid grid-cols-2 gap-10 p-4 text-sm">
@@ -196,7 +194,6 @@ const Navbar = () => {
             </Menu>
           </div>
 
-
           {/* MENU MOBILE */}
           <div className="flex items-center gap-2 md:hidden">
             <DropdownMenu>
@@ -243,6 +240,7 @@ const Navbar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports</Link>
+
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports 2</Link>
