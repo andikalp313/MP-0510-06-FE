@@ -6,7 +6,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { logoutAction } from "@/redux/slices/userslice";
 import { useAppSelector } from "@/redux/hooks";
+
 import Image from "next/image";
+
 
 // Komponen bawaan Anda
 import { ModeToggle } from "@/components/ModeToggle";
@@ -66,6 +68,7 @@ const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between py-4">
           {/* Logo */}
+
           <Link href="/" className="flex items-center">
             {/* Logo */}
             <Image
@@ -98,7 +101,6 @@ const Navbar = () => {
                   <HoveredLink href="/create-event">Create Event</HoveredLink>
                 </div>
               </MenuItem>
-
               {/* TRENDING */}
               <MenuItem setActive={setActive} active={active} item="Trending">
                 <div className="grid grid-cols-2 gap-10 p-4 text-sm">
@@ -137,7 +139,6 @@ const Navbar = () => {
                   </HoveredLink>
                 </div>
               </MenuItem>
-
               {/* EXPLORE AI */}
               <MenuItem setActive={setActive} active={active} item="ExploreAI">
                 <div className="flex flex-col space-y-2 text-sm">
@@ -181,7 +182,6 @@ const Navbar = () => {
                   )}
                 </div>
               </MenuItem>
-
               {/* ABOUT */}
               <Link href="/about">
                 <MenuItem setActive={setActive} active={active} item="About">
@@ -196,6 +196,7 @@ const Navbar = () => {
             </Menu>
           </div>
 
+
           {/* MENU MOBILE */}
           <div className="flex items-center gap-2 md:hidden">
             <DropdownMenu>
@@ -206,7 +207,6 @@ const Navbar = () => {
               <DropdownMenuContent className="bg-white">
                 <DropdownMenuLabel>Menu</DropdownMenuLabel>
                 <DropdownMenuSeparator />
-
                 {/* HOME */}
                 <DropdownMenuSub>
                   <DropdownMenuSubTrigger>Home</DropdownMenuSubTrigger>
@@ -320,6 +320,7 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
+
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
