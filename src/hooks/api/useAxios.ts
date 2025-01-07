@@ -2,12 +2,16 @@
 
 import { axiosInstance } from "@/lib/axios";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks";
-import { logoutAction } from "@/redux/slices/userslice";
+import { logoutAction } from "@/redux//userslice";
 import { useEffect } from "react";
+import { RootState } from "@/redux/store";
 
+interface User {
+  token: string;
+}
 const useAxios = () => {
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector((state) => state.user);
+  const { token } = useAppSelector((state: RootState) => state.user as User);
 
   useEffect(() => {
     const requestIntercept = axiosInstance.interceptors.request.use(

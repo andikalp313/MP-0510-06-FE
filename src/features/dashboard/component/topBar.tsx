@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { logoutAction } from "@/redux/slices/userslice";
+import { logoutAction } from "@/redux/userslice";
 import { Bell, LogOut, Settings, User, UserCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
@@ -37,22 +37,20 @@ export function Navbar() {
             <div className="absolute right-0 z-10 mt-2 w-48 rounded-lg bg-white shadow-lg">
               <ul className="py-2 text-sm text-gray-700">
                 <li
-                  className="flex items-center cursor-pointer px-4 py-2 hover:bg-gray-100"
+                  className="flex cursor-pointer items-center px-4 py-2 hover:bg-gray-100"
                   onClick={() => router.push("/profile")}
                 >
                   <UserCircle2 className="mr-2 h-4 w-4 text-gray-500" />
                   Profile
                 </li>
                 <li
-                  className="flex items-center cursor-pointer px-4 py-2 hover:bg-gray-100"
+                  className="flex cursor-pointer items-center px-4 py-2 hover:bg-gray-100"
                   onClick={() => router.push("/dashboard/profile")}
                 >
                   <Settings className="mr-2 h-4 w-4 text-gray-500" />
                   Setting Account
                 </li>
-                <li
-                  className="flex items-center cursor-pointer px-4 py-2 text-red-500 hover:bg-gray-100"
-                >
+                <li className="flex cursor-pointer items-center px-4 py-2 text-red-500 hover:bg-gray-100">
                   <p onClick={logOut} className="mr-2 h-4 w-4 text-red-500" />
                   Log Out
                 </li>

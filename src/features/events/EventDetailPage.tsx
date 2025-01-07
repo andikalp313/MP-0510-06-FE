@@ -36,7 +36,7 @@ interface EventDetailPageProps {
 const EventDetailPage: FC<EventDetailPageProps> = ({ eventId }) => {
   const { data: event, isLoading, error } = useGetEvent(eventId);
   const [showTransactionForm, setShowTransactionForm] = useState(false);
-  const { id } = useAppSelector((state) => state.user);
+  useAppSelector((state) => state.user);
 
   // State untuk mengontrol visibilitas ulasan
   const [showReviews, setShowReviews] = useState(false);
