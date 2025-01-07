@@ -5,7 +5,7 @@ import { FC, PropsWithChildren, useEffect } from "react";
 
 import { jwtDecode } from "jwt-decode";
 import { fromUnixTime, isAfter } from "date-fns";
-import { logoutAction } from "../redux/userSlice";
+import { logoutAction } from "../redux/userslice";
 
 const TokenProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
