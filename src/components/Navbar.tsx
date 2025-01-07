@@ -136,6 +136,13 @@ const Navbar = () => {
                   </HoveredLink>
                 </div>
               </MenuItem>
+              
+              {/* DASHBOARD */}
+              <MenuItem setActive={setActive} active={active} item="Dashboard">
+                <div className="flex flex-col space-y-2 text-sm">
+                  <HoveredLink href="/dashboard"> Dashboard </HoveredLink>
+                </div>
+              </MenuItem>
 
               {/* EXPLORE AI */}
               <MenuItem setActive={setActive} active={active} item="ExploreAI">
@@ -246,7 +253,6 @@ const Navbar = () => {
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports 2</Link>
                     </DropdownMenuItem>
-
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
 
@@ -258,6 +264,16 @@ const Navbar = () => {
                       onClick={() => router.push("/create-voucher")}
                     >
                       Create Voucher
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+
+                {/* EXPLORE AI */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Dashboard</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard">Dashboard</Link>
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
@@ -311,7 +327,6 @@ const Navbar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="#services">Services</Link>
-
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="#ourteam">Team</Link>
@@ -321,7 +336,6 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
-
               </DropdownMenuContent>
             </DropdownMenu>
           </div>

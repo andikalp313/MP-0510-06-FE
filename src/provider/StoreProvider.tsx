@@ -2,8 +2,6 @@
 
 import { useRef } from "react";
 import { Provider } from "react-redux";
-
-import React from "react";
 import { AppStore, makeStore } from "@/redux/store";
 
 export default function StoreProvider({

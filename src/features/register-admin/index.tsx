@@ -2,15 +2,14 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import useRegisteror from "@/hooks/api/auth/useRegister";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { RegisterOrganizerSchema } from "./schema";
 import Link from "next/link";
 import useRegisterOrganizer from "@/hooks/api/auth/useRegisterOrganizer";
-import { Label } from "@/components/ui/label-ui";
-import { Input } from "@/components/ui/input-ui";
 
 const RegisterOrganizerPage = () => {
   const { mutateAsync: registerAdmin, isPending } = useRegisterOrganizer();
@@ -32,10 +31,7 @@ const RegisterOrganizerPage = () => {
 
   return (
     <main className="flex justify-center pt-5">
-      <Card className="w-full md:w-[500px]">
-        <CardHeader>
-          <CardTitle>Sign up</CardTitle>
-        </CardHeader>
+      <Card className="w-full md:w-[500px]  bg-white/70 p-6">
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid w-full items-center gap-4">
@@ -48,6 +44,7 @@ const RegisterOrganizerPage = () => {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.name && !!formik.errors.name ? (
                   <p className="text-xs text-red-500">{formik.errors.name}</p>
@@ -64,12 +61,10 @@ const RegisterOrganizerPage = () => {
                   value={formik.values.organizerName}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
-                {!!formik.touched.organizerName &&
-                !!formik.errors.organizerName ? (
-                  <p className="text-xs text-red-500">
-                    {formik.errors.organizerName}
-                  </p>
+                {!!formik.touched.organizerName && !!formik.errors.organizerName ? (
+                  <p className="text-xs text-red-500">{formik.errors.organizerName}</p>
                 ) : null}
               </div>
             </div>
@@ -83,6 +78,7 @@ const RegisterOrganizerPage = () => {
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.email && !!formik.errors.email ? (
                   <p className="text-xs text-red-500">{formik.errors.email}</p>
@@ -99,11 +95,10 @@ const RegisterOrganizerPage = () => {
                   value={formik.values.address}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.name && !!formik.errors.address ? (
-                  <p className="text-xs text-red-500">
-                    {formik.errors.address}
-                  </p>
+                  <p className="text-xs text-red-500">{formik.errors.address}</p>
                 ) : null}
               </div>
             </div>
@@ -117,9 +112,10 @@ const RegisterOrganizerPage = () => {
                     const selectedRole = e.target.value;
                     setRole(selectedRole);
                     formik.setFieldValue("role", selectedRole);
+                     
                   }}
                   onBlur={formik.handleBlur}
-                  className="rounded border p-2"
+                  className="rounded border p-2 bg-transparent"
                 >
                   <option value="ADMIN">Admin</option>
                 </select>
@@ -135,6 +131,7 @@ const RegisterOrganizerPage = () => {
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.password && !!formik.errors.password ? (
                   <p className="text-xs text-red-500">

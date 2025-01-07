@@ -11,8 +11,10 @@ interface UserState {
   role: string;
   profilePicture: string;
   referralCode: string;
-  points: number | null;
-  discountValue: number | null;
+  points: string;
+  discountValue: string;
+  couponsExpiryDate:Date;
+  pointsExpiryDate: Date;
 }
 
 const initialState: UserState = {
@@ -25,8 +27,10 @@ const initialState: UserState = {
   role: "",
   profilePicture: "",
   referralCode: "",
-  points: 0,
-  discountValue: 0,
+  points: "",
+  discountValue: "",
+  couponsExpiryDate: new Date(),
+  pointsExpiryDate: new Date(),
 };
 
 export const userSlice = createSlice({
@@ -45,6 +49,8 @@ export const userSlice = createSlice({
       state.referralCode = action.payload.referralCode;
       state.points = action.payload.points;
       state.discountValue = action.payload.discountValue;
+      state.couponsExpiryDate = action.payload.couponsExpiryDate;
+      state.pointsExpiryDate = action.payload.pointsExpiryDate;
     },
     logoutAction: (state) => {
       state.id = 0;
@@ -56,11 +62,21 @@ export const userSlice = createSlice({
       state.role = "";
       state.profilePicture = "";
       state.referralCode = "";
-      state.points = 0;
-      state.discountValue = 0;
+      state.points = "";
+      state.discountValue = "";
+      state.couponsExpiryDate = new Date();
+      state.pointsExpiryDate = new Date();
+    },
+    updateUserAction: (state, action: PayloadAction<Partial<UserState>>) => {
+      const { id, name, email, address, profilePicture } = action.payload;
+      if (id !== undefined) state.id = id;
+      if (name !== undefined) state.name = name;
+      if (email !== undefined) state.email = email;
+      if (address !== undefined) state.address = address;
+      if (profilePicture !== undefined) state.profilePicture = profilePicture;
     },
   },
 });
 
-export const { loginAction, logoutAction } = userSlice.actions;
+export const { loginAction, logoutAction, updateUserAction } = userSlice.actions;
 export default userSlice.reducer;

@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 
 interface RegisterPayload {
   name: string;
+  organizerName:string;
   email: string;
   password: string;
   referredBy: string;

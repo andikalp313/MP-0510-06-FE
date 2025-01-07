@@ -2,12 +2,12 @@ export interface User {
   address: string;
   id: number;
   name: string;
+  organizerName: string;
   email: string;
   profilePicture: string;
   password: string;
   createdAt: Date;
   updatedAt: Date;
-  organizerName: string;
 }
 
 export interface Organizer {

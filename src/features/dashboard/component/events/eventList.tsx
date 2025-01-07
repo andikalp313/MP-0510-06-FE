@@ -1,97 +1,76 @@
 "use client";
 
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { EditEventModal } from "./editEventModal";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import RoleGuard from "@/hoc/roleGuard";
+import useGetEventsByUser from "@/hooks/api/event/useGetEventsByUser";
+import { useAppSelector } from "@/redux/hooks";
+import { updateUserAction } from "@/redux/slices/userslice";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 
 interface Event {
-  id: number;
-  name: string;
-  date: string;
-  tickets: number;
-  price: number;
+  id: string;
+  title: string;
+  description: string;
+  startDate: string; 
+  location: string;
+  priceReguler: number;
+  priceVip: number;
+  priceVvip: number;
+  avaliableSeatsReguler: string;
+  avaliableSeatsVip: string;
+  avaliableSeatsVvip: string;
+  eventCategory: string;
+  endDate: string;
+  user: {
+    name: string;
+  };
 }
 
 function EventPage() {
-  const [events, setEvents] = useState<Event[]>([
-    {
-      id: 1,
-      name: "Summer Music Festival",
-      date: "2023-07-15",
-      tickets: 500,
-      price: 50,
-    },
-    {
-      id: 2,
-      name: "Tech Conference 2023",
-      date: "2023-09-22",
-      tickets: 300,
-      price: 100,
-    },
-    {
-      id: 3,
-      name: "Food & Wine Expo",
-      date: "2023-10-05",
-      tickets: 1000,
-      price: 25,
-    },
-  ]);
-
-  const [newEvent, setNewEvent] = useState<Omit<Event, "id">>({
-    name: "",
-    date: "",
-    tickets: 0,
-    price: 0,
-  });
+  const user = useAppSelector((state) => state.user); 
+  const userId = user.id; 
+  const { data: events = [], isLoading, isError } = useGetEventsByUser( );
   const [editingEvent, setEditingEvent] = useState<Event | null>(null);
+  const [error, setError] = useState("");
+  const dispatch = useDispatch();
+  
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setNewEvent({
-      ...newEvent,
-      [name]: name === "tickets" || name === "price" ? Number(value) : value,
-    });
+  useEffect(() => {
+    const storedUser = localStorage.getItem("exploretix-storage");
+    if (storedUser) {
+      dispatch(updateUserAction(JSON.parse(storedUser)));
+    }
+  }, [dispatch]);
+
+  const formatDate = (dateString: string) => {  
+    const date = new Date(dateString);  
+    const day = String(date.getDate()).padStart(2, '0');  
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Bulan dimulai dari 0  
+    const year = date.getFullYear();  
+    return `${day}/${month}/${year}`;  
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setEvents([...events, { ...newEvent, id: events.length + 1 }]);
-    setNewEvent({ name: "", date: "", tickets: 0, price: 0 });
-  };
+  // const handleUpdateEvent = (updatedEvent: Event) => {
+  //   // Update event dalam state
+  //   setEvents((prevEvents) =>
+  //     prevEvents.map((event) => (event.id === updatedEvent.id ? updatedEvent : event))
+  //   );
+  //   setEditingEvent(null);
+  // };
 
-  const handleEdit = (event: Event) => {
-    setEditingEvent(event);
-  };
+  if (isLoading) {
+    return <p>Loading events...</p>;
+  }
 
-  const handleUpdateEvent = (updatedEvent: Event) => {
-    setEvents(
-      events.map((event) =>
-        event.id === updatedEvent.id ? updatedEvent : event,
-      ),
-    );
-    setEditingEvent(null);
-  };
+  if (isError) {
+    return <p>Error fetching events.</p>;
+  }
 
   return (
+   
     <div className="space-y-4">
       <Card>
         <CardHeader>
@@ -104,24 +83,34 @@ function EventPage() {
               <TableHeader>
                 <TableRow>
                   <TableHead>Event Name</TableHead>
+                  <TableHead>City</TableHead>
                   <TableHead>Date</TableHead>
-                  <TableHead>Available Tickets</TableHead>
-                  <TableHead>Price</TableHead>
+                  <TableHead>VVIP Tic</TableHead>
+                  <TableHead>VIP Tic</TableHead>
+                  <TableHead>REG Tic</TableHead>
+                  <TableHead>VVIP Rp.</TableHead>
+                  <TableHead>VIP Rp.</TableHead>
+                  <TableHead>REG Rp.</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {events.map((event) => (
                   <TableRow key={event.id}>
-                    <TableCell>{event.name}</TableCell>
-                    <TableCell>{event.date}</TableCell>
-                    <TableCell>{event.tickets}</TableCell>
-                    <TableCell>${event.price}</TableCell>
+                    <TableCell>{event.title}</TableCell>
+                    <TableCell>{event.location}</TableCell>
+                    <TableCell>{formatDate(event.startDate)}</TableCell>
+                    <TableCell>{event.avaliableSeatsVvip}</TableCell>
+                    <TableCell>{event.avaliableSeatsVip}</TableCell>
+                    <TableCell>{event.avaliableSeatsReguler}</TableCell>
+                    <TableCell>Rp.{event.priceVvip},00</TableCell>
+                    <TableCell>Rp.{event.priceVip},00</TableCell>
+                    <TableCell>Rp.{event.priceReguler},00</TableCell>
                     <TableCell>
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => handleEdit(event)}
+                        onClick={() => setEditingEvent(event)}
                       >
                         Edit
                       </Button>
@@ -133,13 +122,13 @@ function EventPage() {
           </div>
         </CardContent>
       </Card>
-      {editingEvent && (
+      {/* {editingEvent && (
         <EditEventModal
           event={editingEvent}
           onClose={() => setEditingEvent(null)}
           onUpdate={handleUpdateEvent}
         />
-      )}
+      )} */}
     </div>
   );
 }
