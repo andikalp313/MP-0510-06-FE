@@ -5,11 +5,14 @@ import { FC, PropsWithChildren, useEffect } from "react";
 
 import { jwtDecode } from "jwt-decode";
 import { fromUnixTime, isAfter } from "date-fns";
-import { logoutAction } from "@/redux/slices/userslice";
+import { logoutAction } from "../redux/slices/userslice";
 
 const TokenProvider: FC<PropsWithChildren> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const { token } = useAppSelector((state) => state.user);
+  const { token } = useAppSelector(
+    (state: { user: { token: string } }) => state.user,
+  );
+  // const { token } = useAppSelector((state) => state.user);
 
   useEffect(() => {
     const checkTokenValidity = () => {

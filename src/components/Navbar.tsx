@@ -38,7 +38,7 @@ const Navbar = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const user = useAppSelector((state) => state.user);
+  const user = useAppSelector((state) => state.user) as { id: number };
 
   const logout = () => {
     // contoh logout sederhana
@@ -246,7 +246,6 @@ const Navbar = () => {
                     <DropdownMenuItem asChild>
                       <Link href="/events">Sports 2</Link>
                     </DropdownMenuItem>
-
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
 
@@ -311,7 +310,6 @@ const Navbar = () => {
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="#services">Services</Link>
-
                     </DropdownMenuItem>
                     <DropdownMenuItem asChild>
                       <Link href="#ourteam">Team</Link>
@@ -321,7 +319,6 @@ const Navbar = () => {
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>
-
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
