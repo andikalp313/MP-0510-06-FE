@@ -73,7 +73,7 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
   return (
     <Link href={`/events/${event.id}`} className="block">
       {/* Pastikan di tempat import Card pakai "overflow-hidden rounded-3xl" jika ingin sudut bulat */}
-      <Card className="overflow-hidden rounded-xl bg-gradient-to-tr from-sky-50 to-white">
+      <Card className="">
         {/* Header dengan gambar */}
         <CardHeader className="relative h-60 w-full p-0">
           <Image
