@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { logoutAction } from "@/redux/userSlice";
+import { logoutAction } from "@/redux/slices/userSlice";
 import { Bell, LogOut, Settings, User, UserCircle2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";

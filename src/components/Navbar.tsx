@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { logoutAction } from "@/redux/userSlice";
+import { logoutAction } from "@/redux/slices/userSlice";
 import { useAppSelector } from "@/redux/hooks";
 
 import Image from "next/image";
