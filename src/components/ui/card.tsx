@@ -10,7 +10,7 @@ const Card = React.forwardRef<
     ref={ref}
     // Tambahkan overflow-hidden dan atur radius sesuai kebutuhan, misalnya rounded-3xl
     className={cn(
-      "overflow-hidden rounded-xl border bg-card text-card-foreground shadow",
+      "overflow-hidden rounded-xl bg-card text-card-foreground",
       className,
     )}
     {...props}

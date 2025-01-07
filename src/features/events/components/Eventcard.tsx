@@ -113,7 +113,9 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
           <div className="mb-4 flex items-center gap-2 text-gray-600">
             <LocationIcon />
             <span>
-              <span className="font-medium text-sky-700">Location:</span>{" "}
+              <span className="line-clamp-2 font-medium text-sky-700">
+                Location:
+              </span>{" "}
               {event.location}
             </span>
           </div>
