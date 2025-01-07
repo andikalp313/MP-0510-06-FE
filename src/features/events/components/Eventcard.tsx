@@ -75,7 +75,7 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
       {/* Pastikan di tempat import Card pakai "overflow-hidden rounded-3xl" jika ingin sudut bulat */}
       <Card className="overflow-hidden rounded-xl bg-gradient-to-tr from-sky-50 to-white">
         {/* Header dengan gambar */}
-        <CardHeader className="relative h-56 w-full p-0">
+        <CardHeader className="relative h-60 w-full p-0">
           <Image
             src={event.thumbnail}
             alt={event.title}
