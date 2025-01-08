@@ -45,21 +45,21 @@ function TransactionsPage() {
     }));
   }, [transactions, dispatch]);
 
-  // const handleApprove = (id: number) => {
-  //   setLocalTransactions((prev) =>
-  //     prev.map((transaction) =>
-  //       transaction.id === id ? { ...transaction, status: 'Approved' } : transaction
-  //     )
-  //   );
-  // };
+  const handleApprove = (id: number) => {
+    setLocalTransactions((prev) =>
+      prev.map((transaction) =>
+        transaction.id === id ? { ...transaction, status: 'Approved' } : transaction
+      )
+    );
+  };
 
-  // const handleReject = (id: number) => {
-  //   setLocalTransactions((prev) =>
-  //     prev.map((transaction) =>
-  //       transaction.id === id ? { ...transaction, status: 'Rejected' } : transaction
-  //     )
-  //   );
-  // };
+  const handleReject = (id: number) => {
+    setLocalTransactions((prev) =>
+      prev.map((transaction) =>
+        transaction.id === id ? { ...transaction, status: 'Rejected' } : transaction
+      )
+    );
+  };
 
   if (isLoading) {
     return <p>Loading transactions...</p>;

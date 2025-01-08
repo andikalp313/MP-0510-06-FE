@@ -9,6 +9,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { updateUserAction } from "@/redux/slices/userslice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { EditEventModal } from "./editEventModal";
 
 interface Event {
   id: string;
