@@ -8,6 +8,7 @@ import useRegister from "@/hooks/api/auth/useRegister";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { RegisterSchema } from "./schema";
+import Link from "next/link";
 
 const RegisterUserPage = () => {
   const { mutateAsync: register, isPending } = useRegister();
@@ -143,6 +144,7 @@ const RegisterUserPage = () => {
               {isPending ? "Loading..." : "Register"}
             </Button>
           </form>
+          <Link href="/login">Do you have an account?</Link>
         </CardContent>
       </Card>
     </main>
