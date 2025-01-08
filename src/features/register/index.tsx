@@ -10,6 +10,10 @@ const registerPage = () => {
   const [activeTab, setActiveTab] = useState("User");
 
   return (
+    <div
+      className="min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/bg-login2.png')" }}
+    >
     <div className="space-y-6">
       <div className="flex items-center justify-center">
         <h1 className="text-center text-3xl font-bold">
@@ -50,6 +54,7 @@ const registerPage = () => {
           </Card>
         </TabsContent>
       </Tabs>
+    </div>
     </div>
   );
 };

@@ -3,6 +3,7 @@
 import { ReactNode } from "react";
 
 export interface Transaction {
+  tickets: number;
   paymentProof: any;
   voucher: any;
   event: any;

@@ -46,10 +46,8 @@ import RoleGuard from "@/hoc/roleGuard";
   return (
     <div className="flex h-full w-full flex-col p-4">
       {" "}
-      {/* Tambahkan kelas untuk mengisi layar */}
       <Card className="w-full">
         {" "}
-        {/* Pastikan kartu menggunakan lebar penuh */}
         <CardHeader>
           <CardTitle>Attendee List</CardTitle>
           <CardDescription>View all attendees for your events</CardDescription>

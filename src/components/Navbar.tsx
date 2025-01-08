@@ -136,6 +136,13 @@ const Navbar = () => {
                   </HoveredLink>
                 </div>
               </MenuItem>
+              
+              {/* DASHBOARD */}
+              <MenuItem setActive={setActive} active={active} item="Dashboard">
+                <div className="flex flex-col space-y-2 text-sm">
+                  <HoveredLink href="/dashboard"> Dashboard </HoveredLink>
+                </div>
+              </MenuItem>
 
               {/* EXPLORE AI */}
               <MenuItem setActive={setActive} active={active} item="ExploreAI">
@@ -257,6 +264,16 @@ const Navbar = () => {
                       onClick={() => router.push("/create-voucher")}
                     >
                       Create Voucher
+                    </DropdownMenuItem>
+                  </DropdownMenuSubContent>
+                </DropdownMenuSub>
+
+                {/* EXPLORE AI */}
+                <DropdownMenuSub>
+                  <DropdownMenuSubTrigger>Dashboard</DropdownMenuSubTrigger>
+                  <DropdownMenuSubContent className="bg-white">
+                    <DropdownMenuItem asChild>
+                      <Link href="/dashboard">Dashboard</Link>
                     </DropdownMenuItem>
                   </DropdownMenuSubContent>
                 </DropdownMenuSub>

@@ -26,6 +26,10 @@ const ResetPasswordPage: FC<ResetPasswordPageProps> = ({ token }) => {
     },
   });
   return (
+    <div
+      className="min-h-screen bg-cover bg-center"
+      style={{ backgroundImage: "url('/bg-login2.png')" }}
+    >
     <main className="flex justify-center pt-20">
       <Card className="w-[350px]">
         <CardHeader>
@@ -43,6 +47,7 @@ const ResetPasswordPage: FC<ResetPasswordPageProps> = ({ token }) => {
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.password && !!formik.errors.password ? (
                   <p className="text-xs text-red-500">
@@ -59,6 +64,7 @@ const ResetPasswordPage: FC<ResetPasswordPageProps> = ({ token }) => {
                   value={formik.values.confirmPassword}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.confirmPassword &&
                 !!formik.errors.confirmPassword ? (
@@ -78,6 +84,7 @@ const ResetPasswordPage: FC<ResetPasswordPageProps> = ({ token }) => {
         </CardContent>
       </Card>
     </main>
+    </div>
   );
 };
 

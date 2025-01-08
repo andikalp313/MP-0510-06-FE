@@ -8,12 +8,11 @@ interface GetProfileQueries {
 
 const useGetProfile = ({ id }: GetProfileQueries) => {
   return useQuery({
-    queryKey: ["profiles", id], // Tambahkan ID ke queryKey untuk caching berbasis ID
+    queryKey: ["profiles", id], 
     queryFn: async () => {
-      const { data } = await axiosInstance.get<User>(`/profiles/profile`); // Perbaiki endpoint URL agar sesuai dengan backend
-      return data;
+      const { data } = await axiosInstance.get<User>(`/profiles/profile`); 
     },
-    enabled: !!id, // Mengaktifkan query hanya jika ID valid
+    enabled: !!id, 
   });
 };
 

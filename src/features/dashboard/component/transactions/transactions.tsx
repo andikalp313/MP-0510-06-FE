@@ -1,50 +1,72 @@
-'use client'
+'use client';
 
-import { useState } from 'react'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { TransactionDetailModal } from './transactionDetailModal'
-import RoleGuard from '@/hoc/roleGuard'
+import { useEffect, useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import { TransactionDetailModal } from './transactionDetailModal';
+import RoleGuard from '@/hoc/roleGuard';
+import { updateUserAction } from '@/redux/userSlice';
+import { useAppSelector } from '@/redux/hooks';
+import { useDispatch } from 'react-redux';
+import useGetTransactionsByUser from '@/hooks/api/transaction/useGetTransactions';
 
-interface Transaction {
-  id: number
-  event: string
-  customer: string
-  amount: number
-  status: 'Pending' | 'Approved' | 'Rejected'
-  tickets: number
-  paymentProof: string
+interface LocalTransaction {
+  id: number;
+  event: string;
+  userId: number;
+  totalPrice: number;
+  status: 'Pending' | 'Approved' | 'Rejected'; 
+  tickets: number;
+  paymentProof: string;
 }
 
- function TransactionsPage() {
-  const [transactions, setTransactions] = useState<Transaction[]>([
-    { id: 1, event: 'Summer Music Festival', customer: 'John Doe', amount: 100, status: 'Pending', tickets: 2, paymentProof: '/payment-proof-1.jpg' },
-    { id: 2, event: 'Tech Conference 2023', customer: 'Jane Smith', amount: 200, status: 'Approved', tickets: 1, paymentProof: '/payment-proof-2.jpg' },
-    { id: 3, event: 'Food & Wine Expo', customer: 'Bob Johnson', amount: 50, status: 'Rejected', tickets: 1, paymentProof: '/payment-proof-3.jpg' },
-  ])
+function TransactionsPage() {
+  const user = useAppSelector((state) => state.user);
+  const userId= user.id;
+  const dispatch = useDispatch();
 
-  const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null)
+  const { data: transactions = [], isLoading, isError } = useGetTransactionsByUser({ userId: user.id });
+  const [localTransactions, setLocalTransactions] = useState<LocalTransaction[]>([]);
+  const [selectedTransaction, setSelectedTransaction] = useState<LocalTransaction | null>(null);
+
+  useEffect(() => {
+    const storedUser = localStorage.getItem('exploretix-storage');
+    if (storedUser) {
+      dispatch(updateUserAction(JSON.parse(storedUser)));
+    }
+
+    const transformedTransactions = transactions.map((transaction) => ({
+      ...transaction,
+      userId: transaction.userId, 
+      tickets: transaction.tickets || 0, 
+      totalPrice: typeof transaction.totalPrice === 'number' ? transaction.totalPrice : parseFloat(transaction.totalPrice as string || '0'), // Konversi totalPrice menjadi number
+      status: transaction.status === 'Pending' || transaction.status === 'Approved' || transaction.status === 'Rejected' ? transaction.status : 'Pending', // Set status default jika tidak sesuai
+    }));
+  }, [transactions, dispatch]);
 
   const handleApprove = (id: number) => {
-    setTransactions((prevTransactions) =>
-      prevTransactions.map((t) =>
-        t.id === id ? { ...t, status: 'Approved' } : t
+    setLocalTransactions((prev) =>
+      prev.map((transaction) =>
+        transaction.id === id ? { ...transaction, status: 'Approved' } : transaction
       )
-    )
-    // TODO: Send approval email to customer
-    // TODO: Update available seats
-  }
+    );
+  };
 
   const handleReject = (id: number) => {
-    setTransactions((prevTransactions) =>
-      prevTransactions.map((t) =>
-        t.id === id ? { ...t, status: 'Rejected' } : t
+    setLocalTransactions((prev) =>
+      prev.map((transaction) =>
+        transaction.id === id ? { ...transaction, status: 'Rejected' } : transaction
       )
-    )
-    // TODO: Send rejection email to customer
-    // TODO: Return points/vouchers/coupons if used
-    // TODO: Restore available seats
+    );
+  };
+
+  if (isLoading) {
+    return <p>Loading transactions...</p>;
+  }
+
+  if (isError) {
+    return <p>Failed to load transactions. Please try again.</p>;
   }
 
   return (
@@ -65,26 +87,40 @@ interface Transaction {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {transactions.map((transaction) => (
+            {localTransactions.map((transaction) => (
               <TableRow key={transaction.id}>
                 <TableCell>{transaction.event}</TableCell>
-                <TableCell>{transaction.customer}</TableCell>
-                <TableCell>${transaction.amount}</TableCell>
+                <TableCell>{transaction.userId}</TableCell>
+                <TableCell>${transaction.totalPrice}</TableCell>
                 <TableCell>{transaction.status}</TableCell>
                 <TableCell>
-                  <Button variant="outline" size="sm" className="mr-2" onClick={() => setSelectedTransaction(transaction)}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mr-2"
+                    onClick={() => setSelectedTransaction(transaction)}
+                  >
                     View Details
                   </Button>
-                  {/* {transaction.status === 'Pending' && (
+                  {transaction.status === 'Pending' && (
                     <>
-                      <Button variant="outline" size="sm" className="mr-2" onClick={() => handleApprove(transaction.id)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="mr-2"
+                        // onClick={() => handleApprove(transaction.id)}
+                      >
                         Approve
                       </Button>
-                      <Button variant="outline" size="sm" onClick={() => handleReject(transaction.id)}>
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        // onClick={() => handleReject(transaction.id)}
+                      >
                         Reject
                       </Button>
                     </>
-                  )} */}
+                  )}
                 </TableCell>
               </TableRow>
             ))}
@@ -96,17 +132,17 @@ interface Transaction {
           transaction={selectedTransaction}
           onClose={() => setSelectedTransaction(null)}
           onApprove={() => {
-            handleApprove(selectedTransaction.id)
-            setSelectedTransaction(null)
+            // handleApprove(selectedTransaction.id);
+            setSelectedTransaction(null);
           }}
           onReject={() => {
-            handleReject(selectedTransaction.id)
-            setSelectedTransaction(null)
+            // handleReject(selectedTransaction.id);
+            setSelectedTransaction(null);
           }}
         />
       )}
     </Card>
-  )
+  );
 }
 
-export default RoleGuard (TransactionsPage)
+export default RoleGuard(TransactionsPage);

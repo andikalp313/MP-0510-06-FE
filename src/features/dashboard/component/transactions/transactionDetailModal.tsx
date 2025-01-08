@@ -16,8 +16,8 @@ interface TransactionDetailModalProps {
   transaction: {
     id: number
     event: string
-    customer: string
-    amount: number
+    userId: number
+    totalPrice: number
     status: string
     tickets: number
     paymentProof: string
@@ -49,7 +49,7 @@ export function TransactionDetailModal({ transaction, onClose, onApprove, onReje
               Customer
             </Label>
             <div id="customer" className="col-span-3">
-              {transaction.customer}
+              {transaction.userId}
             </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -57,7 +57,7 @@ export function TransactionDetailModal({ transaction, onClose, onApprove, onReje
               Amount
             </Label>
             <div id="amount" className="col-span-3">
-              ${transaction.amount}
+              ${transaction.totalPrice}
             </div>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">

@@ -1,48 +1,53 @@
 "use client";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+
+import { axiosInstance } from "@/lib/axios";
+import { useMutation } from "@tanstack/react-query";
 import { AxiosError } from "axios";
-import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import useAxios from "../useAxios";
-interface UpdateUserPayload {
-  name?: string;
-  email?: string;
-  address?: string;
-  profilePicture?: File | null;
+import { toast } from "react-toastify";
+
+interface UpdateUserBody {
+  name: string;
+  organizerName:string;
+  email: string;
+  address: string;
+  profilePicture: File | null;
 }
-const useUpdateUser = () => {
+
+const useUpdateProfile = (token: string) => {
   const router = useRouter();
-  const { axiosInstance } = useAxios();
-  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: async ({
-      id,
-      payload,
-    }: {
-      id: number;
-      payload: UpdateUserPayload;
-    }) => {
-      const updateUserForm = new FormData();
-      if (payload.name) updateUserForm.append("name", payload.name);
-      if (payload.email) updateUserForm.append("email", payload.email);
-      if (payload.address) updateUserForm.append("address", payload.address);
-      if (payload.profilePicture)
-        updateUserForm.append("profilePicture", payload.profilePicture);
+    mutationFn: async (payload: UpdateUserBody) => {
+      const formData = new FormData();
+      formData.append("name", payload.name);
+      formData.append("organizerName", payload.organizerName);
+      formData.append("email", payload.email);
+      formData.append("address", payload.address);
+      if (payload.profilePicture) {
+        formData.append("profilePicture", payload.profilePicture);
+      }
+
       const { data } = await axiosInstance.patch(
-        `/users/${id}`,
-        updateUserForm,
+        "/profile",
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
       );
       return data;
     },
-    onSuccess: async (data) => {
-      toast.success("User updated successfully");
-      await queryClient.invalidateQueries({ queryKey: ["users"] });
-      router.push("/");
+    onSuccess: () => {
+      toast.success("Profile updated successfully!");
+      router.refresh();
     },
     onError: (error: AxiosError<any>) => {
-      toast.error(error.response?.data);
-      toast.error(error.response?.data.errors);
+      toast.error(error.response?.data?.message || "Failed to update profile.");
     },
   });
 };
-export default useUpdateUser;
+
+export default useUpdateProfile;

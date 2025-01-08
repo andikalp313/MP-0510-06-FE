@@ -1,110 +1,120 @@
-// import { Button } from "@/components/ui/button";
-// import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-// import { Input } from "@/components/ui/input";
-// import { Label } from "@/components/ui/label";
-// import React, { useState } from "react";
+"use client";
 
-// const UpdatePasswordForm = () => {
-//   const [passwordChangeMessage, setPasswordChangeMessage] = useState<string | null>(null);
-//   const [formValues, setFormValues] = useState({
-//     currentPassword: "",
-//     newPassword: "",
-//     confirmPassword: "",
-//   });
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { useFormik } from "formik";
+import { useState } from "react";
+import { changePasswordSchema } from "../schemas"; 
+import useChangePassword from "@/hooks/api/user/useChangePassword";
 
-//   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-//     const { name, value } = e.target;
-//     setFormValues((prevValues) => ({ ...prevValues, [name]: value }));
-//   };
+function ChangePasswordForm({ token }: { token: string }) {
+  const { mutate: changePassword } = useChangePassword(token); 
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-//   const handlePasswordChange = (e: React.FormEvent<HTMLFormElement>) => {
-//     e.preventDefault();
+  const formik = useFormik({
+    initialValues: {
+      userId: 0,
+      currentPassword: "",
+      newPassword: "",
+      confirmNewPassword: "",
+    },
+    validationSchema: changePasswordSchema,
+    onSubmit: async (values) => {
+      setIsLoading(true);
+      try {
+        changePassword(
+          {
+            userId: values.userId,
+            oldPassword: values.currentPassword,
+            newPassword: values.newPassword,
+            confirmPassword: values.confirmNewPassword,
+          },
+          {
+            onSuccess: () => {
+              formik.resetForm();
+              setError("");
+            },
+            onError: (err: any) => {
+              setError(err?.response?.data?.message || "Failed to change password. Please try again.");
+            },
+          }
+        );
+      } finally {
+        setIsLoading(false);
+      }
+    },
+  });
 
-//     const { currentPassword, newPassword, confirmPassword } = formValues;
+  return (
+    <Card className="mb-12 w-full md:w-[500px]" >
+      <CardHeader>
+        <CardTitle>Change Password</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={formik.handleSubmit} className="space-y-4">
+          {error && <div className="text-sm text-red-600">{error}</div>}
+          <div className="space-y-2">
+            <Label htmlFor="currentPassword">Current Password</Label>
+            <Input
+              id="currentPassword"
+              type="password"
+              value={formik.values.currentPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="bg-transparent rounded border p-2"
+              required
+            />
+            {formik.touched.currentPassword && formik.errors.currentPassword ? (
+              <div className="text-sm text-red-600">
+                {formik.errors.currentPassword}
+              </div>
+            ) : null}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="newPassword">New Password</Label>
+            <Input
+              id="newPassword"
+              type="password"
+              value={formik.values.newPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="bg-transparent rounded border p-2"
+              required
+            />
+            {formik.touched.newPassword && formik.errors.newPassword ? (
+              <div className="text-sm text-red-600">
+                {formik.errors.newPassword}
+              </div>
+            ) : null}
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="confirmNewPassword">Confirm New Password</Label>
+            <Input
+              id="confirmNewPassword"
+              type="password"
+              value={formik.values.confirmNewPassword}
+              onChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              className="bg-transparent rounded border p-2"
+              required
+            />
+            {formik.touched.confirmNewPassword && formik.errors.confirmNewPassword ? (
+              <div className="text-sm text-red-600">
+                {formik.errors.confirmNewPassword}
+              </div>
+            ) : null}
+          </div>
 
-//     if (!currentPassword || !newPassword || !confirmPassword) {
-//       setPasswordChangeMessage("All fields are required.");
-//       return;
-//     }
+          <Button type="submit" disabled={isLoading}>
+            {isLoading ? "Changing..." : "Change Password"}
+          </Button>
+        </form>
+      </CardContent>
+    </Card>
+  );
+}
 
-//     if (newPassword !== confirmPassword) {
-//       setPasswordChangeMessage("New password and confirmation do not match.");
-//       return;
-//     }
-
-    
-//     setTimeout(() => {
-//       setPasswordChangeMessage("Password changed successfully!");
-//       setFormValues({
-//         currentPassword: "",
-//         newPassword: "",
-//         confirmPassword: "",
-//       });
-//     }, 1000); 
-//   };
-
-//   return (
-//     <div>
-//       <Card>
-//         <CardHeader>
-//           <CardTitle>Change Password</CardTitle>
-//         </CardHeader>
-//         <CardContent>
-//           <form onSubmit={handlePasswordChange} className="space-y-4">
-//             <div className="grid gap-4 sm:grid-cols-2">
-//               <div className="space-y-2">
-//                 <Label htmlFor="currentPassword">Current Password</Label>
-//                 <Input
-//                   id="currentPassword"
-//                   name="currentPassword"
-//                   type="password"
-//                   value={formValues.currentPassword}
-//                   onChange={handleInputChange}
-//                   required
-//                 />
-//               </div>
-//               <div className="space-y-2">
-//                 <Label htmlFor="newPassword">New Password</Label>
-//                 <Input
-//                   id="newPassword"
-//                   name="newPassword"
-//                   type="password"
-//                   value={formValues.newPassword}
-//                   onChange={handleInputChange}
-//                   required
-//                 />
-//               </div>
-//               <div className="space-y-2 sm:col-span-2">
-//                 <Label htmlFor="confirmPassword">Confirm New Password</Label>
-//                 <Input
-//                   id="confirmPassword"
-//                   name="confirmPassword"
-//                   type="password"
-//                   value={formValues.confirmPassword}
-//                   onChange={handleInputChange}
-//                   required
-//                 />
-//               </div>
-//             </div>
-//             <div className="flex justify-end">
-//               <Button type="submit">Change Password</Button>
-//             </div>
-//           </form>
-//           {passwordChangeMessage && (
-//             <p
-//               className={`mt-4 text-center ${
-//                 passwordChangeMessage.includes("successfully")
-//                   ? "text-green-600"
-//                   : "text-red-600"
-//               }`}
-//             >
-//               {passwordChangeMessage}
-//             </p>
-//           )}
-//         </CardContent>
-//       </Card>
-//     </div>
-//   );
-// };
-
-// export default UpdatePasswordForm;
+export default ChangePasswordForm;

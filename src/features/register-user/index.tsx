@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import useRegister from "@/hooks/api/auth/useRegister";
@@ -17,22 +17,20 @@ const RegisterUserPage = () => {
     initialValues: {
       name: "",
       email: "",
-      address:"",
+      address: "",
+      organizerName: "",
       password: "",
       role: "USER",
       referredBy: "",
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
-      await register(values);
+      await register({ ...values, organizerName: formik.values.organizerName });
     },
   });
   return (
-    <main className="flex justify-center pt-20">
-      <Card className="w-[350px]">
-        <CardHeader>
-          <CardTitle>Sign up</CardTitle>
-        </CardHeader>
+    <main className="flex justify-center pt-5">
+      <Card className="w-full md:w-[500px]  bg-white/70 p-6">
         <CardContent>
           <form onSubmit={formik.handleSubmit}>
             <div className="grid w-full items-center gap-4">
@@ -45,6 +43,7 @@ const RegisterUserPage = () => {
                   value={formik.values.name}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.name && !!formik.errors.name ? (
                   <p className="text-xs text-red-500">{formik.errors.name}</p>
@@ -61,6 +60,7 @@ const RegisterUserPage = () => {
                   value={formik.values.email}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.email && !!formik.errors.email ? (
                   <p className="text-xs text-red-500">{formik.errors.email}</p>
@@ -77,6 +77,7 @@ const RegisterUserPage = () => {
                   value={formik.values.address}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.name && !!formik.errors.address ? (
                   <p className="text-xs text-red-500">{formik.errors.address}</p>
@@ -95,7 +96,7 @@ const RegisterUserPage = () => {
                     formik.setFieldValue("role", selectedRole); 
                   }}
                   onBlur={formik.handleBlur}
-                  className="rounded border p-2"
+                  className="rounded border p-2 bg-transparent "
                 >
                   <option value="USER">User</option>
                 </select>
@@ -111,6 +112,7 @@ const RegisterUserPage = () => {
                   value={formik.values.password}
                   onChange={formik.handleChange}
                   onBlur={formik.handleBlur}
+                  className="bg-transparent rounded border p-2"
                 />
                 {!!formik.touched.password && !!formik.errors.password ? (
                   <p className="text-xs text-red-500">
@@ -132,6 +134,7 @@ const RegisterUserPage = () => {
                     value={formik.values.referredBy}
                     onChange={formik.handleChange}
                     onBlur={formik.handleBlur}
+                    className="bg-transparent rounded border p-2"
                   />
                 </div>
               </div>
