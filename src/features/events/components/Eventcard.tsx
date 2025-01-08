@@ -73,9 +73,9 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
   return (
     <Link href={`/events/${event.id}`} className="block">
       {/* Pastikan di tempat import Card pakai "overflow-hidden rounded-3xl" jika ingin sudut bulat */}
-      <Card className="overflow-hidden rounded-xl bg-gradient-to-tr from-sky-50 to-white">
+      <Card className="">
         {/* Header dengan gambar */}
-        <CardHeader className="relative h-56 w-full p-0">
+        <CardHeader className="relative h-60 w-full p-0">
           <Image
             src={event.thumbnail}
             alt={event.title}
@@ -113,7 +113,9 @@ const EventCard: FC<EventCardProps> = ({ event }) => {
           <div className="mb-4 flex items-center gap-2 text-gray-600">
             <LocationIcon />
             <span>
-              <span className="font-medium text-sky-700">Location:</span>{" "}
+              <span className="line-clamp-2 font-medium text-sky-700">
+                Location:
+              </span>{" "}
               {event.location}
             </span>
           </div>

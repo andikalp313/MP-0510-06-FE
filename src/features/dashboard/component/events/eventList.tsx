@@ -6,7 +6,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import RoleGuard from "@/hoc/roleGuard";
 import useGetEventsByUser from "@/hooks/api/event/useGetEventsByUser";
 import { useAppSelector } from "@/redux/hooks";
-import { updateUserAction } from "@/redux/slices/userslice";
+import { updateUserAction } from "@/redux/userSlice";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { EditEventModal } from "./editEventModal";

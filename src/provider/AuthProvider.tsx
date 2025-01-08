@@ -2,7 +2,7 @@
 
 import LoadingScreen from "@/components/LoadingScreen";
 import { useAppDispatch } from "@/redux/hooks";
-import { loginAction } from "@/redux/slices/userslice";
+import { loginAction } from "@/redux/userSlice";
 import { PropsWithChildren, useEffect, useState } from "react";
 
 const AuthProvider = ({ children }: PropsWithChildren) => {

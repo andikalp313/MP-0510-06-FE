@@ -6,7 +6,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { TransactionDetailModal } from './transactionDetailModal';
 import RoleGuard from '@/hoc/roleGuard';
-import { updateUserAction } from '@/redux/slices/userslice';
+import { updateUserAction } from '@/redux/userSlice';
 import { useAppSelector } from '@/redux/hooks';
 import { useDispatch } from 'react-redux';
 import useGetTransactionsByUser from '@/hooks/api/transaction/useGetTransactions';

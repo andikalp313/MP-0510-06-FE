@@ -12,7 +12,7 @@ import { useAppSelector } from "@/redux/hooks";
 import { useDispatch } from "react-redux";
 import Image from "next/image";
 import useUpdateProfile from "@/hooks/api/user/useUpdateUser";
-import { updateUserAction } from "@/redux/slices/userslice";
+import { updateUserAction } from "@/redux/userSlice";
 
 export function ProfileForm() {
   const user = useAppSelector((state) => state.user);
