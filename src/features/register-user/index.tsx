@@ -19,14 +19,13 @@ const RegisterUserPage = () => {
       name: "",
       email: "",
       address: "",
-      organizerName: "",
       password: "",
       role: "USER",
       referredBy: "",
     },
     validationSchema: RegisterSchema,
     onSubmit: async (values) => {
-      await register({ ...values, organizerName: formik.values.organizerName });
+      await register({ ...values});
     },
   });
   return (
